@@ -1,0 +1,27 @@
+{
+    "name": "ordermind/logical-authorization-doctrine-orm-bundle",
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Adds LogicalAuthorization support to Doctrine ORM entities",
+    "keywords": ["doctrine", "orm", "logical-authorization"],
+    "authors": [
+        {
+            "name": "Kristofer Tengström",
+            "email": "info@kristofer-tengstrom.se"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ordermind\\LogicalAuthorizationDoctrineORMBundle\\": ""
+        }
+    },
+    "require": {
+        "ordermind/logical-authorization-bundle": "dev-master",
+        "doctrine/doctrine-bundle": "^1.0",
+        "doctrine/orm": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=4.8",
+        "escapestudios/symfony2-coding-standard": "~2.0"
+    }
+}

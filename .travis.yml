@@ -1,0 +1,64 @@
+language: php
+matrix:
+  include:
+    - php: 5.4
+      env: TEST_SUITE=ORM SYMFONY_VERSION=2.8.* NO_X_DEBUG=true
+    - php: 5.5.9
+      env: TEST_SUITE=ORM SYMFONY_VERSION=2.8.* NO_X_DEBUG=true
+    - php: 5.5.9
+      env: TEST_SUITE=ORM SYMFONY_VERSION=^3.0 NO_X_DEBUG=true
+    - php: 5.6
+      env: TEST_SUITE=ORM SYMFONY_VERSION=2.8.* NO_X_DEBUG=true
+    - php: 5.6
+      env: TEST_SUITE=ORM SYMFONY_VERSION=^3.0 NO_X_DEBUG=true
+    - php: 7.0
+      env: TEST_SUITE=ORM SYMFONY_VERSION=2.8.* NO_X_DEBUG=true
+    - php: 7.0
+      env: TEST_SUITE=ORM SYMFONY_VERSION=^3.0 NO_X_DEBUG=true
+    - php: nightly
+      env: TEST_SUITE=ORM SYMFONY_VERSION=2.8.*
+    - php: nightly
+      env: TEST_SUITE=ORM SYMFONY_VERSION=^3.0
+    - php: hhvm
+      env: TEST_SUITE=ORM SYMFONY_VERSION=2.8.*
+    - php: hhvm
+      env: TEST_SUITE=ORM SYMFONY_VERSION=^3.0
+
+    - php: 5.4
+      env: TEST_SUITE=ODM SYMFONY_VERSION=2.8.* NO_X_DEBUG=true
+    - php: 5.5.9
+      env: TEST_SUITE=ODM SYMFONY_VERSION=2.8.* NO_X_DEBUG=true
+    - php: 5.5.9
+      env: TEST_SUITE=ODM SYMFONY_VERSION=^3.0 NO_X_DEBUG=true
+    - php: 5.6
+      env: TEST_SUITE=ODM SYMFONY_VERSION=2.8.* NO_X_DEBUG=true
+    - php: 5.6
+      env: TEST_SUITE=ODM SYMFONY_VERSION=^3.0 NO_X_DEBUG=true
+    - php: 7.0
+      env: TEST_SUITE=ODM SYMFONY_VERSION=2.8.* NO_X_DEBUG=true
+    - php: 7.0
+      env: TEST_SUITE=ODM SYMFONY_VERSION=^3.0 NO_X_DEBUG=true
+    - php: nightly
+      env: TEST_SUITE=ODM SYMFONY_VERSION=2.8.*
+    - php: nightly
+      env: TEST_SUITE=ODM SYMFONY_VERSION=^3.0
+    - php: hhvm
+      env: TEST_SUITE=ODM SYMFONY_VERSION=2.8.*
+    - php: hhvm
+      env: TEST_SUITE=ODM SYMFONY_VERSION=^3.0
+
+services:
+  - mongodb
+before_install:
+  - if [ "$NO_X_DEBUG" != "" ]; then phpenv config-rm xdebug.ini; fi;
+  - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
+  - if [ "$TEST_SUITE" == "ORM" ]; then composer require doctrine/doctrine-bundle:^1.0 doctrine/orm:^2.0 --no-update; export PHPUNIT_FILE=./phpunit_orm.xml.dist; fi;
+  - if [ "$TEST_SUITE" == "ODM" ]; then composer require doctrine/mongodb-odm-bundle:^3.0 --no-update; export PHPUNIT_FILE=./phpunit_odm.xml.dist; fi;
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ] && [ "$TEST_SUITE" == "ODM" ]; then phpenv config-add travis-php.ini; fi;
+install: composer install --prefer-dist
+before_script:
+  - if [ "$TEST_SUITE" == "ORM" ]; then mysql -e 'create database orm_test;'; fi;
+script: vendor/bin/phpunit -c $PHPUNIT_FILE
+notifications:
+  email: false
+

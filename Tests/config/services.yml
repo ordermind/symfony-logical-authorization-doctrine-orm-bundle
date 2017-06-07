@@ -1,0 +1,155 @@
+services:
+  cache.adapter.null:
+    class: Symfony\Component\Cache\Adapter\NullAdapter
+    abstract: true
+    arguments: [~, ~, ~]
+    tags:
+      - {name: cache.pool, clearer: cache.default_clearer}
+
+  test_entity_operations:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Services\TestEntityOperations
+
+  repository_decorator_event_subscriber:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\EventListener\RepositoryDecoratorEventSubscriber
+    tags:
+        - { name: kernel.event_subscriber }
+
+  entity_decorator_event_subscriber:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\EventListener\EntityDecoratorEventSubscriber
+    tags:
+        - { name: kernel.event_subscriber }
+
+  repository.test_entity:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+        - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntity
+
+  repository.test_entity_constructor_params:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+        - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntityConstructorParams
+
+  repository.test_entity_abort_create:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+        - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntityAbortCreate
+
+  repository.test_entity_abort_calls:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+        - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntityAbortCalls
+
+  repository.test_entity_abort_save:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+        - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntityAbortSave
+
+  repository.test_entity_abort_delete:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+        - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntityAbortDelete
+
+  repository.test_user:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\User\TestUser
+
+  # Annotation repositories
+  repository.test_entity_roleauthor_annotation:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Annotation\TestEntityRoleAuthor
+
+  repository.test_entity_hasaccount_annotation:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Annotation\TestEntityHasAccountNoInterface
+
+  repository.test_entity_nobypass_annotation:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Annotation\TestEntityNoBypass
+
+  repository.test_entity_overridden_permissions_annotation:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Annotation\TestEntityOverriddenPermissions
+
+  repository.test_entity_various_permissions_annotation:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Annotation\TestEntityVariousPermissions
+
+  # XML repositories
+  repository.test_entity_roleauthor_xml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\XML\TestEntityRoleAuthor
+
+  repository.test_entity_hasaccount_xml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\XML\TestEntityHasAccountNoInterface
+
+  repository.test_entity_nobypass_xml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\XML\TestEntityNoBypass
+
+  repository.test_entity_overridden_permissions_xml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\XML\TestEntityOverriddenPermissions
+
+  repository.test_entity_various_permissions_xml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\XML\TestEntityVariousPermissions
+
+  # YML repositories
+  repository.test_entity_roleauthor_yml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEntityRoleAuthor
+
+  repository.test_entity_hasaccount_yml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEntityHasAccountNoInterface
+
+  repository.test_entity_nobypass_yml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEntityNoBypass
+
+  repository.test_entity_overridden_permissions_yml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEntityOverriddenPermissions
+
+  repository.test_entity_various_permissions_yml:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
+    factory: ['@ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory', getRepositoryDecorator]
+    arguments:
+      - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEntityVariousPermissions

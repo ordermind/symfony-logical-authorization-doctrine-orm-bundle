@@ -1,0 +1,34 @@
+services:
+  ordermind_logical_authorization_doctrine_orm.service.repository_decorator_factory:
+      class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory\RepositoryDecoratorFactory
+      calls:
+          - [setManagerRegistry, ['@doctrine']]
+          - [setEntityDecoratorFactory, ['@ordermind_logical_authorization_doctrine_orm.service.entity_decorator_factory']]
+          - [setDispatcher, ['@event_dispatcher']]
+          - [setHelper, ['@ordermind_logical_authorization.service.helper']]
+
+  ordermind_logical_authorization_doctrine_orm.service.entity_decorator_factory:
+      class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory\EntityDecoratorFactory
+      arguments: ['@ordermind_logical_authorization.service.logical_authorization_model']
+
+  ordermind_logical_authorization_doctrine_orm.event_listener.add_permissions:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\AddPermissions
+    arguments:
+      - '@doctrine'
+      - '%doctrine.orm.metadata.annotation.class%'
+      - '%doctrine.orm.metadata.xml.class%'
+      - '%doctrine.orm.metadata.yml.class%'
+    tags:
+      - {name: kernel.event_listener, event: logical_authorization.add_permissions, method: onAddPermissions}
+
+  ordermind_logical_authorization_doctrine_orm.event_subscriber.repository_decorator:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\RepositoryDecoratorSubscriber
+    arguments: ['@ordermind_logical_authorization.service.logical_authorization_model', '%ordermind_logical_authorization_doctrine_orm.config%']
+    tags:
+      - {name: kernel.event_subscriber}
+
+  ordermind_logical_authorization_doctrine_orm.event_subscriber.entity_decorator:
+    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\EntityDecoratorSubscriber
+    arguments: ['@ordermind_logical_authorization.service.logical_authorization_model']
+    tags:
+      - {name: kernel.event_subscriber}
