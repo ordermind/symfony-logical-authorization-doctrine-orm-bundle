@@ -2,7 +2,7 @@
     "name": "ordermind/logical-authorization-doctrine-orm-bundle",
     "version": "0.2.0",
     "license": "MIT",
-    "description": "Adds LogicalAuthorization support to Doctrine ORM entities",
+    "description": "Doctrine ORM integration with LogicalAuthorization bundle",
     "keywords": ["doctrine", "orm", "logical-authorization"],
     "authors": [
         {
