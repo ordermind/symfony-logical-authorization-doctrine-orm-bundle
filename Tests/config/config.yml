@@ -78,7 +78,7 @@ doctrine:
                 alias: TestEntitiesYML
 
 # LogicalAuthorization Configuration
-ordermind_logical_authorization:
+logauth:
     permissions:
         models:
             Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Annotation\TestEntityOverriddenPermissions:
@@ -110,5 +110,5 @@ ordermind_logical_authorization:
                         set: true
 
 # LogicalAuthorization Doctrine ORM Configuration
-ordermind_logical_authorization_doctrine_orm:
+logauth_doctrine_orm:
     check_lazy_loaded_entities: true

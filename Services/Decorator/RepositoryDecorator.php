@@ -107,7 +107,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $result = $repository->find($id, $lockMode, $lockVersion);
         $event = new SingleEntityResultEvent($repository, 'find', [$id, $lockMode, $lockVersion], $result);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.repository_decorator.single_entity_result', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.single_entity_result', $event);
         $result = $event->getResult();
 
         return $this->wrapEntity($result);
@@ -122,7 +122,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $result = $repository->findAll();
         $event = new MultipleEntityResultEvent($repository, 'findAll', [], $result);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.repository_decorator.multiple_entity_result', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.multiple_entity_result', $event);
         $result = $event->getResult();
 
         return $this->wrapEntities($result);
@@ -137,7 +137,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $result = $repository->findBy($criteria, $sort, $limit, $skip);
         $event = new MultipleEntityResultEvent($repository, 'findBy', [$criteria, $sort, $limit, $skip], $result);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.repository_decorator.multiple_entity_result', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.multiple_entity_result', $event);
         $result = $event->getResult();
 
         return $this->wrapEntities($result);
@@ -152,7 +152,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $result = $repository->findOneBy($criteria);
         $event = new SingleEntityResultEvent($repository, 'findOneBy', [$criteria], $result);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.repository_decorator.single_entity_result', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.single_entity_result', $event);
         $result = $event->getResult();
 
         return $this->wrapEntity($result);
@@ -167,7 +167,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $result = $repository->matching($criteria);
         $event = new LazyEntityCollectionResultEvent($repository, 'matching', [$criteria], $result);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.repository_decorator.lazy_entity_collection_result', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.lazy_entity_collection_result', $event);
         $result = $event->getResult();
 
         return $result;
@@ -182,7 +182,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
 
         $event = new BeforeCreateEvent($class);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.repository_decorator.before_create', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.before_create', $event);
         if ($event->getAbort()) {
             return null;
         }
@@ -233,7 +233,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * Catch-all for method calls on the repository
    *
-   * Traps all method calls on the repository and fires the event 'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.unknown_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\UnknownResultEvent, allowing tampering with the result before returning it to the caller.
+   * Traps all method calls on the repository and fires the event 'logauth_doctrine_orm.event.repository_decorator.unknown_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\UnknownResultEvent, allowing tampering with the result before returning it to the caller.
    *
    * @param string $method    The method used for the call
    * @param array  $arguments The arguments used for the call
@@ -246,7 +246,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $result = call_user_func_array([$repository, $method], $arguments);
         $event = new UnknownResultEvent($repository, $method, $arguments, $result);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.repository_decorator.unknown_result', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.unknown_result', $event);
         $result = $event->getResult();
 
         return $this->wrapEntities($result);

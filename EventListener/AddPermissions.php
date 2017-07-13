@@ -76,19 +76,19 @@ class AddPermissions {
     foreach($classes as $class) {
       $xmlRoot = $driver->getElement($class);
       // Parse XML structure in $element
-      if(isset($xmlRoot->logical_authorization_permissions)) {
+      if(isset($xmlRoot->logauth_permissions)) {
         if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-        $permissionTree['models'][$class] = json_decode(json_encode($xmlRoot->logical_authorization_permissions), TRUE);
+        $permissionTree['models'][$class] = json_decode(json_encode($xmlRoot->logauth_permissions), TRUE);
       }
       $reflectionClass = new \ReflectionClass($class);
       foreach($reflectionClass->getProperties() as $property) {
         $field_name = $property->getName();
         if($result = $xmlRoot->xpath("*[@name='$field_name' or @field='$field_name']")) {
           $field = $result[0];
-          if(isset($field->logical_authorization_permissions)) {
+          if(isset($field->logauth_permissions)) {
             if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
             $permissionTree['models'] += [$class => ['fields' => []]];
-            $permissionTree['models'][$class]['fields'][$field_name] = json_decode(json_encode($field->logical_authorization_permissions), TRUE);
+            $permissionTree['models'][$class]['fields'][$field_name] = json_decode(json_encode($field->logauth_permissions), TRUE);
           }
         }
       }
@@ -102,17 +102,17 @@ class AddPermissions {
     $permissionTree = [];
     foreach($classes as $class) {
       $mapping = $driver->getElement($class);
-      if(isset($mapping['logical_authorization_permissions'])) {
+      if(isset($mapping['logauth_permissions'])) {
         if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-        $permissionTree['models'][$class] = $mapping['logical_authorization_permissions'];
+        $permissionTree['models'][$class] = $mapping['logauth_permissions'];
       }
       foreach($mapping as $key => $data) {
         if(!is_array($data)) continue;
         foreach($data as $field_name => $field_mapping) {
-          if(isset($field_mapping['logical_authorization_permissions'])) {
+          if(isset($field_mapping['logauth_permissions'])) {
             if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
             $permissionTree['models'] += [$class => ['fields' => []]];
-            $permissionTree['models'][$class]['fields'][$field_name] = $field_mapping['logical_authorization_permissions'];
+            $permissionTree['models'][$class]['fields'][$field_name] = $field_mapping['logauth_permissions'];
           }
         }
       }

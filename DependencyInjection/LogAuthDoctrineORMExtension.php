@@ -12,13 +12,24 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class OrdermindLogicalAuthorizationDoctrineORMExtension extends Extension
+class LogAuthDoctrineORMExtension extends Extension
 {
     /**
      * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $configuration = new Configuration();
+        $processed_config = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('logauth_doctrine_orm.config', $processed_config);
 
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
+    }
+
+    public function getAlias()
+    {
+        return 'logauth_doctrine_orm';
     }
 }
+

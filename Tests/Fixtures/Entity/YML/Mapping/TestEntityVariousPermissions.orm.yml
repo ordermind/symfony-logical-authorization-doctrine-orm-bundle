@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\YML\TestEntityVariousPermissionsRepository
   table: testentities_various_permissions_yml
 
-  logical_authorization_permissions:
+  logauth_permissions:
     create: false
     read:
       flag: has_account
@@ -18,7 +18,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
       type: integer
       generator:
         strategy: AUTO
-      logical_authorization_permissions:
+      logauth_permissions:
         set:
           no_bypass: true
           0: false
@@ -27,7 +27,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
     field1:
       type: string
       length: 255
-      logical_authorization_permissions:
+      logauth_permissions:
         get:
           flag: has_account
         set:
@@ -35,7 +35,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
     field2:
       type: string
       length: 255
-      logical_authorization_permissions:
+      logauth_permissions:
         get: false
         set:
           flag: is_author
@@ -48,5 +48,5 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
       joinColumn:
         name: author_id
         referencedColumnName: id
-      logical_authorization_permissions:
+      logauth_permissions:
         set: false

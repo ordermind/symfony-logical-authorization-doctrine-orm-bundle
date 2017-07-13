@@ -14,13 +14,13 @@ use Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\T
 class EntityDecoratorEventSubscriber implements EventSubscriberInterface {
   public static function getSubscribedEvents() {
     return array(
-      'ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_method_call' => array(
+      'logauth_doctrine_orm.event.entity_decorator.before_method_call' => array(
         array('onBeforeMethodCall'),
       ),
-      'ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_save' => array(
+      'logauth_doctrine_orm.event.entity_decorator.before_save' => array(
         array('onBeforeSave'),
       ),
-      'ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_delete' => array(
+      'logauth_doctrine_orm.event.entity_decorator.before_delete' => array(
         array('onBeforeDelete'),
       ),
     );

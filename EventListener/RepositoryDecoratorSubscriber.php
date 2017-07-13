@@ -26,19 +26,19 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
 
   public static function getSubscribedEvents() {
     return array(
-      'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.unknown_result' => array(
+      'logauth_doctrine_orm.event.repository_decorator.unknown_result' => array(
         array('onUnknownResult'),
       ),
-      'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.single_entity_result' => array(
+      'logauth_doctrine_orm.event.repository_decorator.single_entity_result' => array(
         array('onSingleEntityResult'),
       ),
-      'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.multiple_entity_result' => array(
+      'logauth_doctrine_orm.event.repository_decorator.multiple_entity_result' => array(
         array('onMultipleEntityResult'),
       ),
-      'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.before_create' => array(
+      'logauth_doctrine_orm.event.repository_decorator.before_create' => array(
         array('onBeforeCreate'),
       ),
-      'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.lazy_entity_collection_result' => array(
+      'logauth_doctrine_orm.event.repository_decorator.lazy_entity_collection_result' => array(
         array('onLazyEntityCollectionResult'),
       ),
     );

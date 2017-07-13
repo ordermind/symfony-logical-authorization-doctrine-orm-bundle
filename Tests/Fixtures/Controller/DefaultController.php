@@ -86,7 +86,7 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function callMethodGetterAuthorAction(Request $request) {
-    $user = $this->get('ordermind_logical_authorization.service.helper')->getCurrentUser();
+    $user = $this->get('logauth.service.helper')->getCurrentUser();
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
     $entityDecorator = $operations->createTestEntity($user, true);
@@ -113,7 +113,7 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function callMethodSetterAuthorAction(Request $request) {
-    $user = $this->get('ordermind_logical_authorization.service.helper')->getCurrentUser();
+    $user = $this->get('logauth.service.helper')->getCurrentUser();
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
     $entityDecorator = $operations->createTestEntity($user, true);
@@ -154,7 +154,7 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function saveEntityUpdateAuthorAction(Request $request) {
-    $user = $this->get('ordermind_logical_authorization.service.helper')->getCurrentUser();
+    $user = $this->get('logauth.service.helper')->getCurrentUser();
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
     $entityDecorator = $operations->createTestEntity($user, true);
@@ -183,7 +183,7 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function deleteEntityAuthorAction(Request $request) {
-    $user = $this->get('ordermind_logical_authorization.service.helper')->getCurrentUser();
+    $user = $this->get('logauth.service.helper')->getCurrentUser();
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
     $entityDecorator = $operations->createTestEntity($user, true);
@@ -197,7 +197,7 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function getAvailableActionsAction(Request $request) {
-    $user = $this->get('ordermind_logical_authorization.service.helper')->getCurrentUser();
+    $user = $this->get('logauth.service.helper')->getCurrentUser();
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
     $entityDecorator = $operations->createTestEntity($user, true);
@@ -216,7 +216,7 @@ class DefaultController extends Controller {
 
   /**
    * @Route("/load-test-entity/{id}", name="load_test_entity", options={
-   * "logical_authorization_permissions": {
+   * "logauth_permissions": {
    *   "role": "ROLE_ADMIN"
    * }})
    * @Method({"GET"})

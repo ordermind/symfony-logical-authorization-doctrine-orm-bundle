@@ -46,7 +46,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
   /**
    * Finds a entity by its identifier
    *
-   * This method forwards the call to the wrapped repository and fires the event 'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.single_entity_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\SingleEntityResultEvent, allowing tampering with the result before returning it to the caller. If no result is found, NULL is returned.
+   * This method forwards the call to the wrapped repository and fires the event 'logauth_doctrine_orm.event.repository_decorator.single_entity_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\SingleEntityResultEvent, allowing tampering with the result before returning it to the caller. If no result is found, NULL is returned.
    *
    * @param mixed   $id          The identifier
    * @param integer $lockMode    (optional) One of the constants in either \Doctrine\DBAL\LockMode::* (for ORM) or \Doctrine\ODM\MongoDB\LockMode::* (for ODM) if a specific lock mode should be used during the search. Default value is NULL.
@@ -59,7 +59,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
   /**
    * Finds all entities for this repository decorator
    *
-   * This method forwards the call to the wrapped repository and fires the event 'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.multiple_entity_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\MultipleEntityResultEvent, allowing tampering with the result before returning it to the caller.
+   * This method forwards the call to the wrapped repository and fires the event 'logauth_doctrine_orm.event.repository_decorator.multiple_entity_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\MultipleEntityResultEvent, allowing tampering with the result before returning it to the caller.
    *
    * @return array
    */
@@ -68,7 +68,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
   /**
    * Finds entities for this repository decorator filtered by a set of criteria
    *
-   * This method forwards the call to the managed repository and fires the event 'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.multiple_entity_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\MultipleEntityResultEvent, allowing tampering with the result before returning it to the caller.
+   * This method forwards the call to the managed repository and fires the event 'logauth_doctrine_orm.event.repository_decorator.multiple_entity_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\MultipleEntityResultEvent, allowing tampering with the result before returning it to the caller.
    *
    * @param array $criteria Query criteria
    * @param array $sort     (optional) Sort array for Cursor::sort(). Default value is NULL.
@@ -82,7 +82,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
   /**
    * Finds a entity for this repository decorator filtered by a set of criteria
    *
-   * This method forwards the call to the managed repository and fires the event 'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.single_entity_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\SingleEntityResultEvent, allowing tampering with the result before returning it to the caller. If no result is found, NULL is returned.
+   * This method forwards the call to the managed repository and fires the event 'logauth_doctrine_orm.event.repository_decorator.single_entity_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\SingleEntityResultEvent, allowing tampering with the result before returning it to the caller. If no result is found, NULL is returned.
    *
    * @param array $criteria Query criteria
    *
@@ -93,7 +93,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
   /**
    * Finds entities for this repository decorator filtered by a set of criteria
    *
-   * This method forwards the call to the managed repository and fires the event 'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.lazy_entity_collection_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\LazyEntityCollectionResultEvent, allowing tampering with the result before returning it to the caller.
+   * This method forwards the call to the managed repository and fires the event 'logauth_doctrine_orm.event.repository_decorator.lazy_entity_collection_result' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\LazyEntityCollectionResultEvent, allowing tampering with the result before returning it to the caller.
    *
    * @param Doctrine\Common\Collections\Criteria $criteria Query criteria
    *
@@ -104,7 +104,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
   /**
    * Creates a new entity decorator
    *
-   * Before the creation is performed, the decorator fires the event 'ordermind_logical_authorization_doctrine_orm.event.repository_decorator.before_create' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\BeforeCreateEvent.
+   * Before the creation is performed, the decorator fires the event 'logauth_doctrine_orm.event.repository_decorator.before_create' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\BeforeCreateEvent.
    * If the abort flag in the event is then found to be TRUE the entity is not created and the method returns NULL.
    * Any parameters that are provided to this method will be passed on to the entity constructor.
    * If the entity implements Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface and the current user implements Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface, it will automatically set the entity's author to the current user.

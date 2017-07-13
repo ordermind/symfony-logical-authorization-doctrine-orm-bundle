@@ -103,7 +103,7 @@ class EntityDecorator implements EntityDecoratorInterface
         $entity = $this->getEntity();
         $event = new BeforeSaveEvent($entity, $this->isNew());
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_save', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.entity_decorator.before_save', $event);
         if ($event->getAbort()) {
             return false;
         }
@@ -125,7 +125,7 @@ class EntityDecorator implements EntityDecoratorInterface
         $entity = $this->getEntity();
         $event = new BeforeDeleteEvent($entity, $this->isNew());
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_delete', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.entity_decorator.before_delete', $event);
         if ($event->getAbort()) {
             return false;
         }
@@ -142,7 +142,7 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * Catch-all for method calls on the entity
    *
-   * Traps all method calls on the entity and fires the event 'ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_method_call' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeMethodCallEvent.
+   * Traps all method calls on the entity and fires the event 'logauth_doctrine_orm.event.entity_decorator.before_method_call' passing Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeMethodCallEvent.
    * If the abort flag in the event is then found to be TRUE the call is never transmitted to the entity and instead the method returns NULL.
    *
    * @param string $method    The method used for the call
@@ -157,7 +157,7 @@ class EntityDecorator implements EntityDecoratorInterface
         $metadata = $em->getClassMetadata(get_class($entity));
         $event = new BeforeMethodCallEvent($entity, $this->isNew(), $metadata, $method, $arguments);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_method_call', $event);
+        $dispatcher->dispatch('logauth_doctrine_orm.event.entity_decorator.before_method_call', $event);
         if ($event->getAbort()) {
             return null;
         }

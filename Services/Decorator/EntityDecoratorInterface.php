@@ -56,7 +56,7 @@ interface EntityDecoratorInterface
   /**
    * Saves the wrapped entity
    *
-   * Before the save is performed, the decorator fires the event 'ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_save' and passes Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeSaveEvent.
+   * Before the save is performed, the decorator fires the event 'logauth_doctrine_orm.event.entity_decorator.before_save' and passes Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeSaveEvent.
    * If the abort flag in the event is then found to be TRUE the entity is not saved and the method returns FALSE.
    * If the save succeeds the method returns the entity decorator.
    *
@@ -69,7 +69,7 @@ interface EntityDecoratorInterface
   /**
    * Deletes the wrapped entity
    *
-   * Before the deletion is performed, the decorator fires the event 'ordermind_logical_authorization_doctrine_orm.event.entity_decorator.before_delete' and passes Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeDeleteEvent.
+   * Before the deletion is performed, the decorator fires the event 'logauth_doctrine_orm.event.entity_decorator.before_delete' and passes Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeDeleteEvent.
    * If the abort flag in the event is then found to be TRUE the entity is not deleted and the method returns FALSE.
    * If the deletion succeeds the method returns the entity decorator.
    *
