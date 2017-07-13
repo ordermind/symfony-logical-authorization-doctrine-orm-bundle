@@ -5,7 +5,7 @@
     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
   <entity name="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\XML\TestEntityRoleAuthor" repository-class="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\XML\TestEntityRoleAuthorRepository" table="testentities_roleauthor_xml">
-    <logauth_permissions>
+    <logauth>
       <create>
         <role>ROLE_ADMIN</role>
       </create>
@@ -27,14 +27,14 @@
           <flag>is_author</flag>
         </OR>
       </delete>
-    </logauth_permissions>
+    </logauth>
 
     <id name="id" type="integer" column="id">
       <generator strategy="AUTO"/>
     </id>
 
     <field name="field1" column="field1" type="string" length="255">
-      <logauth_permissions>
+      <logauth>
         <get>
           <role>ROLE_ADMIN</role>
           <flag>is_author</flag>
@@ -43,7 +43,7 @@
           <role>ROLE_ADMIN</role>
           <flag>is_author</flag>
         </set>
-      </logauth_permissions>
+      </logauth>
     </field>
 
     <field name="field2" column="field2" type="string" length="255" />

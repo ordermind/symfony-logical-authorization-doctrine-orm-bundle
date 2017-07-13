@@ -5,7 +5,7 @@
     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
   <entity name="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\XML\TestEntityHasAccountNoInterface" repository-class="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\XML\TestEntityHasAccountNoInterfaceRepository" table="testentities_hasaccount_xml">
-    <logauth_permissions>
+    <logauth>
       <create>
         <flag>has_account</flag>
       </create>
@@ -18,21 +18,21 @@
       <delete>
         <flag>has_account</flag>
       </delete>
-    </logauth_permissions>
+    </logauth>
 
     <id name="id" type="integer" column="id">
       <generator strategy="AUTO"/>
     </id>
 
     <field name="field1" column="field1" type="string" length="255">
-      <logauth_permissions>
+      <logauth>
         <get>
           <flag>has_account</flag>
         </get>
         <set>
           <flag>has_account</flag>
         </set>
-      </logauth_permissions>
+      </logauth>
     </field>
 
     <field name="field2" column="field2" type="string" length="255" />

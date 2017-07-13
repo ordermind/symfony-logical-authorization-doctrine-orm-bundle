@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\YML\TestEntityRoleAuthorRepository
   table: testentities_roleauthor_yml
 
-  logauth_permissions:
+  logauth:
     create:
       role: ROLE_ADMIN
     read:
@@ -29,7 +29,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
     field1:
       type: string
       length: 255
-      logauth_permissions:
+      logauth:
         get:
           role: ROLE_ADMIN
           flag: is_author
