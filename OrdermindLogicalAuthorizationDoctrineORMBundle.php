@@ -9,8 +9,8 @@ use Ordermind\LogicalAuthorizationDoctrineORMBundle\DependencyInjection\LogAuthD
 
 class OrdermindLogicalAuthorizationDoctrineORMBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function getContainerExtension()
     {
-        $container->registerExtension(new LogAuthDoctrineORMExtension());
+        return new LogAuthDoctrineORMExtension();
     }
 }
