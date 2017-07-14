@@ -3,7 +3,7 @@
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Annotation;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 
@@ -12,7 +12,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  *
  * @ORM\Table(name="testentities_nobypass_annotation")
  * @ORM\Entity(repositoryClass="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\Annotation\TestEntityNoBypassRepository")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": {
  *     "no_bypass": true,
  *     FALSE
@@ -46,7 +46,7 @@ class TestEntityNoBypass implements ModelInterface
      * @var string
      *
      * @ORM\Column(name="field1", type="string", length=255)
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": {
      *     "no_bypass": true,
      *     FALSE

@@ -3,7 +3,7 @@
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Annotation;
 
 use Doctrine\ORM\Mapping as ORM;
-use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 
@@ -12,7 +12,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  *
  * @ORM\Table(name="testentities_various_permissions_annotation")
  * @ORM\Entity(repositoryClass="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\Annotation\TestEntityVariousPermissionsRepository")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": FALSE,
  *   "read": {"flag": "has_account"},
  *   "update": {"role": "ROLE_ADMIN"},
@@ -27,7 +27,7 @@ class TestEntityVariousPermissions implements ModelInterface
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "set": {"no_bypass": true, FALSE}
      * })
      */
@@ -37,7 +37,7 @@ class TestEntityVariousPermissions implements ModelInterface
      * @var string
      *
      * @ORM\Column(name="field1", type="string", length=255)
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": {"flag": "has_account"},
      *   "set": {"role": "ROLE_ADMIN"}
      * })
@@ -48,7 +48,7 @@ class TestEntityVariousPermissions implements ModelInterface
      * @var string
      *
      * @ORM\Column(name="field2", type="string", length=255)
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": FALSE,
      *   "set": {"flag": "is_author"}
      * })
@@ -66,7 +66,7 @@ class TestEntityVariousPermissions implements ModelInterface
      * @var \Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface
      * @ORM\ManyToOne(targetEntity="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\User\TestUser")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "set": FALSE
      * })
      */

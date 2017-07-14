@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\YML\TestEntityOverriddenPermissionsRepository
   table: testentities_overridden_permissions_yml
 
-  logauth:
+  permissions:
     create: false
     read: false
     update: false
@@ -19,7 +19,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
     field1:
       type: string
       length: 255
-      logauth:
+      permissions:
         get: false
         set: false
     field2:

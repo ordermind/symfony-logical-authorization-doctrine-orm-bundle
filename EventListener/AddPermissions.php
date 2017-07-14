@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEvent;
-use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\Permissions;
 
 class AddPermissions {
   protected $managerRegistry;
@@ -50,7 +50,7 @@ class AddPermissions {
       $reflectionClass = new \ReflectionClass($class);
       $classAnnotations = $annotationReader->getClassAnnotations($reflectionClass);
       foreach ($classAnnotations as $annotation) {
-        if ($annotation instanceof LogicalAuthorizationPermissions) {
+        if ($annotation instanceof Permissions) {
           if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
           $permissionTree['models'][$class] = $annotation->getPermissions();
         }
@@ -59,7 +59,7 @@ class AddPermissions {
         $field_name = $property->getName();
         $propertyAnnotations = $annotationReader->getPropertyAnnotations($property);
         foreach ($propertyAnnotations as $annotation) {
-          if ($annotation instanceof LogicalAuthorizationPermissions) {
+          if ($annotation instanceof Permissions) {
             if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
             $permissionTree['models'] += [$class => ['fields' => []]];
             $permissionTree['models'][$class]['fields'][$field_name] = $annotation->getPermissions();
@@ -76,19 +76,19 @@ class AddPermissions {
     foreach($classes as $class) {
       $xmlRoot = $driver->getElement($class);
       // Parse XML structure in $element
-      if(isset($xmlRoot->logauth)) {
+      if(isset($xmlRoot->permissions)) {
         if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-        $permissionTree['models'][$class] = json_decode(json_encode($xmlRoot->logauth), TRUE);
+        $permissionTree['models'][$class] = json_decode(json_encode($xmlRoot->permissions), TRUE);
       }
       $reflectionClass = new \ReflectionClass($class);
       foreach($reflectionClass->getProperties() as $property) {
         $field_name = $property->getName();
         if($result = $xmlRoot->xpath("*[@name='$field_name' or @field='$field_name']")) {
           $field = $result[0];
-          if(isset($field->logauth)) {
+          if(isset($field->permissions)) {
             if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
             $permissionTree['models'] += [$class => ['fields' => []]];
-            $permissionTree['models'][$class]['fields'][$field_name] = json_decode(json_encode($field->logauth), TRUE);
+            $permissionTree['models'][$class]['fields'][$field_name] = json_decode(json_encode($field->permissions), TRUE);
           }
         }
       }
@@ -102,17 +102,17 @@ class AddPermissions {
     $permissionTree = [];
     foreach($classes as $class) {
       $mapping = $driver->getElement($class);
-      if(isset($mapping['logauth'])) {
+      if(isset($mapping['permissions'])) {
         if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-        $permissionTree['models'][$class] = $mapping['logauth'];
+        $permissionTree['models'][$class] = $mapping['permissions'];
       }
       foreach($mapping as $key => $data) {
         if(!is_array($data)) continue;
         foreach($data as $field_name => $field_mapping) {
-          if(isset($field_mapping['logauth'])) {
+          if(isset($field_mapping['permissions'])) {
             if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
             $permissionTree['models'] += [$class => ['fields' => []]];
-            $permissionTree['models'][$class]['fields'][$field_name] = $field_mapping['logauth'];
+            $permissionTree['models'][$class]['fields'][$field_name] = $field_mapping['permissions'];
           }
         }
       }

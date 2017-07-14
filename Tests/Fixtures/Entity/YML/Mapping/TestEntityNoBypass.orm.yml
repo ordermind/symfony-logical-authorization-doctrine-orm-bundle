@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\YML\TestEntityNoBypassRepository
   table: testentities_nobypass_yml
 
-  logauth:
+  permissions:
     create:
       no_bypass: true
       value: false
@@ -27,7 +27,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
     field1:
       type: string
       length: 255
-      logauth:
+      permissions:
         get:
           no_bypass: true
           value: false

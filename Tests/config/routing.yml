@@ -1,4 +1,4 @@
 test_routes:
     resource: "@OrdermindLogicalAuthorizationDoctrineORMBundle/Tests/Fixtures/Controller/"
-    type:     annotation
+    type:     logauth_annotation
     prefix:   /test

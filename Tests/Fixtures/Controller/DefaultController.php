@@ -8,8 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntity;
+use Ordermind\LogicalAuthorizationBundle\Annotation\Routing\Permissions;
 
 class DefaultController extends Controller {
 
@@ -215,10 +217,10 @@ class DefaultController extends Controller {
   }
 
   /**
-   * @Route("/load-test-entity/{id}", name="load_test_entity", options={
-   * "logauth": {
+   * @Route("/load-test-entity/{id}", name="load_test_entity")
+   * @Permissions({
    *   "role": "ROLE_ADMIN"
-   * }})
+   * })
    * @Method({"GET"})
    */
   public function loadTestEntityAction(Request $request, TestEntity $testEntity = null) {

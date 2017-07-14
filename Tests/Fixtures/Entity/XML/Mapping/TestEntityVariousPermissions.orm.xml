@@ -5,7 +5,7 @@
     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
   <entity name="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\XML\TestEntityVariousPermissions" repository-class="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\XML\TestEntityVariousPermissionsRepository" table="testentities_various_permissions_xml">
-    <logauth>
+    <permissions>
       <create>
         <value>FALSE</value>
       </create>
@@ -19,49 +19,49 @@
         <no_bypass>true</no_bypass>
         <value>FALSE</value>
       </delete>
-    </logauth>
+    </permissions>
 
     <id name="id" type="integer" column="id">
       <generator strategy="AUTO"/>
-      <logauth>
+      <permissions>
         <set>
           <no_bypass>true</no_bypass>
           <value>FALSE</value>
         </set>
-      </logauth>
+      </permissions>
     </id>
 
     <field name="field1" column="field1" type="string" length="255">
-      <logauth>
+      <permissions>
         <get>
           <flag>has_account</flag>
         </get>
         <set>
           <role>ROLE_ADMIN</role>
         </set>
-      </logauth>
+      </permissions>
     </field>
 
     <field name="field2" column="field2" type="string" length="255">
-      <logauth>
+      <permissions>
         <get>
           <value>FALSE</value>
         </get>
         <set>
         <flag>is_author</flag>
         </set>
-      </logauth>
+      </permissions>
     </field>
 
     <field name="field3" column="field3" type="string" length="255" />
 
     <many-to-one field="author" target-entity="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\User\TestUser">
       <join-column name="author_id" referenced-column-name="id" />
-      <logauth>
+      <permissions>
         <set>
           <value>FALSE</value>
         </set>
-      </logauth>
+      </permissions>
     </many-to-one>
   </entity>
 </doctrine-mapping>

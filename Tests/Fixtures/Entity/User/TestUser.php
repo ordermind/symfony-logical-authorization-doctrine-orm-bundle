@@ -4,7 +4,7 @@ namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface as LogicalAuthorizationUserInterface;
 
 /**
@@ -12,7 +12,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface as LogicalAuth
  *
  * @ORM\Table(name="testusers")
  * @ORM\Entity(repositoryClass="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\User\TestUserRepository")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": {
  *     "role": "ROLE_ADMIN"
  *   },
@@ -56,7 +56,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
    * @var string
    *
    * @ORM\Column(name="username", type="string", length=25)
-   * @LogicalAuthorizationPermissions({
+   * @Permissions({
    *   "get": {
    *     "OR": {
    *       "role": "ROLE_ADMIN",
@@ -79,7 +79,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
 
   /**
    * @var string
-   * @LogicalAuthorizationPermissions({
+   * @Permissions({
    *   "set": {
    *     "no_bypass": true,
    *     "flag": "is_author"
@@ -92,7 +92,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
    * @var array
    *
    * @ORM\Column(name="roles", type="json_array")
-   * @LogicalAuthorizationPermissions({
+   * @Permissions({
    *   "get": {
    *     "role": "ROLE_ADMIN"
    *   },

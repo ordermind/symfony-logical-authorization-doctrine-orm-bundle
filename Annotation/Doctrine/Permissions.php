@@ -5,7 +5,7 @@ namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine;
 /**
  * @Annotation
  */
-class LogicalAuthorizationPermissions {
+class Permissions {
   protected $permissions;
 
   public function __construct(array $data) {
