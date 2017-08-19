@@ -54,6 +54,14 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * {@inheritdoc}
    */
+    public function getModel()
+    {
+        return $this->getEntity();
+    }
+
+  /**
+   * {@inheritdoc}
+   */
     public function getEntity()
     {
         return $this->entity;

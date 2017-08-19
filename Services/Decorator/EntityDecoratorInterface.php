@@ -2,12 +2,14 @@
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator;
 
+use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelDecoratorInterface;
+
 /**
  * Decorator for entity
  *
  * Wraps a entity and monitors all communication with it. It also provides a few handy methods.
  */
-interface EntityDecoratorInterface
+interface EntityDecoratorInterface extends ModelDecoratorInterface
 {
 
   /**
