@@ -5,6 +5,8 @@ namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Collections\Criteria;
+use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
+use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Services\HelperInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory\EntityDecoratorFactoryInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\UnknownResultEvent;

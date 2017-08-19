@@ -67,7 +67,11 @@ class DefaultController extends Controller {
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
     $entityDecorator = $operations->createTestEntity();
-    return new JsonResponse(is_object($entityDecorator) && $entityDecorator instanceof EntityDecoratorInterface);
+    if(is_object($entityDecorator) && $entityDecorator instanceof EntityDecoratorInterface) {
+      return new JsonResponse($entityDecorator->getId());
+    }
+
+    return new JsonResponse(false);
   }
 
   /**

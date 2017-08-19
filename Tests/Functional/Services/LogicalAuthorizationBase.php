@@ -153,6 +153,23 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
     $this->sendRequestAs('GET', '/test/load-test-entity/' . $testEntityDecorator->getId(), [], static::$authenticated_user);
   }
 
+  public function testRepositoryDecoratorCreateSetAuthor() {
+    $entityDecorator = $this->testEntityRoleAuthorRepositoryDecorator->create();
+    $author = $entityDecorator->getAuthor();
+    $this->assertNull($author);
+
+    $this->sendRequestAs('GET', '/test/create-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
+    $response = $this->client->getResponse();
+    $this->assertEquals(200, $response->getStatusCode());
+    $decoder = new JsonDecode();
+    $id = $decoder->decode($response->getContent(), 'json');
+    $this->assertTrue((bool) $id);
+    $entityDecorator = $this->testEntityRoleAuthorRepositoryDecorator->find($id);
+    $author = $entityDecorator->getAuthor();
+    $this->assertNotNull($author);
+    $this->assertEquals($author->getId(), static::$admin_user->getId());
+  }
+
   /*------------RepositoryDecorator event tests------------*/
 
   /*---onUnknownResult---*/
@@ -449,7 +466,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
     $this->assertEquals(200, $response->getStatusCode());
     $decoder = new JsonDecode();
     $entity_created = $decoder->decode($response->getContent(), 'json');
-    $this->assertTrue($entity_created);
+    $this->assertTrue((bool) $entity_created);
   }
 
   public function testOnBeforeCreateRoleDisallow() {
@@ -458,7 +475,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
     $this->assertEquals(200, $response->getStatusCode());
     $decoder = new JsonDecode();
     $entity_created = $decoder->decode($response->getContent(), 'json');
-    $this->assertFalse($entity_created);
+    $this->assertFalse((bool) $entity_created);
   }
 
   public function testOnBeforeCreateFlagBypassAccessAllow() {
@@ -467,7 +484,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
     $this->assertEquals(200, $response->getStatusCode());
     $decoder = new JsonDecode();
     $entity_created = $decoder->decode($response->getContent(), 'json');
-    $this->assertTrue($entity_created);
+    $this->assertTrue((bool) $entity_created);
   }
 
   public function testOnBeforeCreateFlagBypassAccessDisallow() {
@@ -476,7 +493,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
     $this->assertEquals(200, $response->getStatusCode());
     $decoder = new JsonDecode();
     $entity_created = $decoder->decode($response->getContent(), 'json');
-    $this->assertFalse($entity_created);
+    $this->assertFalse((bool) $entity_created);
   }
 
   public function testOnBeforeCreateFlagHasAccountAllow() {
@@ -485,7 +502,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
     $this->assertEquals(200, $response->getStatusCode());
     $decoder = new JsonDecode();
     $entity_created = $decoder->decode($response->getContent(), 'json');
-    $this->assertTrue($entity_created);
+    $this->assertTrue((bool) $entity_created);
   }
 
   public function testOnBeforeCreateFlagHasAccountDisallow() {
@@ -494,7 +511,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
     $this->assertEquals(200, $response->getStatusCode());
     $decoder = new JsonDecode();
     $entity_created = $decoder->decode($response->getContent(), 'json');
-    $this->assertFalse($entity_created);
+    $this->assertFalse((bool) $entity_created);
   }
 
   /*---onLazyEntityCollectionResult---*/
