@@ -1,6 +1,6 @@
 <?php
 
-namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional\Services;
+namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional\Services\Decorator;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -12,7 +12,7 @@ abstract class DecoratorBase extends WebTestCase {
    * This method is run before each public test method
    */
   protected function setUp() {
-    require_once __DIR__.'/../../AppKernel.php';
+    require_once __DIR__.'/../../../AppKernel.php';
     $kernel = new \AppKernel('test', true);
     $kernel->boot();
     $this->container = $kernel->getContainer();

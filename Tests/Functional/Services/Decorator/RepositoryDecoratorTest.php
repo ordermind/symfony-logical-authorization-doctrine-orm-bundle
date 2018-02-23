@@ -1,6 +1,6 @@
 <?php
 
-namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional\Services;
+namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional\Services\Decorator;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;

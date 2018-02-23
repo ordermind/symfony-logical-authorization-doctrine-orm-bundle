@@ -1,6 +1,6 @@
 <?php
 
-namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional\Services;
+namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional;
 
 class LogicalAuthorizationXMLTest extends LogicalAuthorizationBase
 {

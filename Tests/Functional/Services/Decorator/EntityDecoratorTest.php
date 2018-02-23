@@ -1,6 +1,6 @@
 <?php
 
-namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional\Services;
+namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional\Services\Decorator;
 
 use Doctrine\ORM\EntityManager;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecorator;
