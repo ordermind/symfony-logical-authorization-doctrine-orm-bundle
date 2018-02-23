@@ -6,29 +6,34 @@ services:
           - [setEntityDecoratorFactory, ['@logauth_doctrine_orm.service.entity_decorator_factory']]
           - [setDispatcher, ['@event_dispatcher']]
           - [setHelper, ['@logauth.service.helper']]
+      public: false
 
   logauth_doctrine_orm.service.entity_decorator_factory:
       class: Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory\EntityDecoratorFactory
       arguments: ['@logauth.service.logauth_model']
+      public: false
 
   logauth_doctrine_orm.event_listener.add_permissions:
-    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\AddPermissions
-    arguments:
-      - '@doctrine'
-      - '%doctrine.orm.metadata.annotation.class%'
-      - '%doctrine.orm.metadata.xml.class%'
-      - '%doctrine.orm.metadata.yml.class%'
-    tags:
-      - {name: kernel.event_listener, event: logauth.add_permissions, method: onAddPermissions}
+      class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\AddPermissions
+      arguments:
+          - '@doctrine'
+          - '%doctrine.orm.metadata.annotation.class%'
+          - '%doctrine.orm.metadata.xml.class%'
+          - '%doctrine.orm.metadata.yml.class%'
+      tags:
+          - {name: kernel.event_listener, event: logauth.add_permissions, method: onAddPermissions}
+      public: false
 
   logauth_doctrine_orm.event_subscriber.repository_decorator:
-    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\RepositoryDecoratorSubscriber
-    arguments: ['@logauth.service.logauth_model', '%logauth_doctrine_orm.config%']
-    tags:
-      - {name: kernel.event_subscriber}
+      class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\RepositoryDecoratorSubscriber
+      arguments: ['@logauth.service.logauth_model', '%logauth_doctrine_orm.config%']
+      tags:
+          - {name: kernel.event_subscriber}
+      public: false
 
   logauth_doctrine_orm.event_subscriber.entity_decorator:
-    class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\EntityDecoratorSubscriber
-    arguments: ['@logauth.service.logauth_model']
-    tags:
-      - {name: kernel.event_subscriber}
+      class: Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener\EntityDecoratorSubscriber
+      arguments: ['@logauth.service.logauth_model']
+      tags:
+          - {name: kernel.event_subscriber}
+      public: false
