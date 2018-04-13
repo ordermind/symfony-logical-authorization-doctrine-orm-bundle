@@ -79,23 +79,10 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function callMethodGetterAction(Request $request) {
+    $author = $this->get('repository.test_user')->getRepository()->find($request->get('author'));
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $entityDecorator = $operations->createTestEntity(null, true);
-    $operations->callMethodSetter($entityDecorator, true);
-
-    return new Response($operations->callMethodGetter($entityDecorator));
-  }
-
-  /**
-    * @Route("/call-method-getter-author", name="call_method_getter_author")
-    * @Method({"GET"})
-    */
-  public function callMethodGetterAuthorAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
-    $operations = $this->get('test_entity_operations');
-    $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $entityDecorator = $operations->createTestEntity($user, true);
+    $entityDecorator = $operations->createTestEntity($author, true);
     $operations->callMethodSetter($entityDecorator, true);
 
     return new Response($operations->callMethodGetter($entityDecorator));
@@ -106,23 +93,10 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function callMethodSetterAction(Request $request) {
+    $author = $this->get('repository.test_user')->getRepository()->find($request->get('author'));
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $entityDecorator = $operations->createTestEntity(null, true);
-    $operations->callMethodSetter($entityDecorator);
-
-    return new Response($operations->callMethodGetter($entityDecorator, true));
-  }
-
-  /**
-    * @Route("/call-method-setter-author", name="call_method_setter_author")
-    * @Method({"GET"})
-    */
-  public function callMethodSetterAuthorAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
-    $operations = $this->get('test_entity_operations');
-    $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $entityDecorator = $operations->createTestEntity($user, true);
+    $entityDecorator = $operations->createTestEntity($author, true);
     $operations->callMethodSetter($entityDecorator);
 
     return new Response($operations->callMethodGetter($entityDecorator, true));
@@ -145,25 +119,10 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function saveEntityUpdateAction(Request $request) {
+    $author = $this->get('repository.test_user')->getRepository()->find($request->get('author'));
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $entityDecorator = $operations->createTestEntity(null, true);
-    $operations->callMethodSetter($entityDecorator, true);
-    $entityDecorator->save();
-    $entityDecorator->getEntityManager()->detach($entityDecorator->getEntity());
-    $persistedEntityDecorator = $operations->getSingleEntityResult($entityDecorator->getEntity()->getId(), true);
-    return new Response($operations->callMethodGetter($persistedEntityDecorator, true));
-  }
-
-  /**
-    * @Route("/save-entity-update-author", name="save_entity_update_author")
-    * @Method({"GET"})
-    */
-  public function saveEntityUpdateAuthorAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
-    $operations = $this->get('test_entity_operations');
-    $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $entityDecorator = $operations->createTestEntity($user, true);
+    $entityDecorator = $operations->createTestEntity($author, true);
     $operations->callMethodSetter($entityDecorator, true);
     $entityDecorator->save();
     $entityDecorator->getEntityManager()->detach($entityDecorator->getEntity());
@@ -176,23 +135,10 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function deleteEntityAction(Request $request) {
+    $author = $this->get('repository.test_user')->getRepository()->find($request->get('author'));
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $entityDecorator = $operations->createTestEntity(null, true);
-    $entityDecorator->delete();
-    $result = $operations->getMultipleEntityResult(true);
-    return new Response(count($result));
-  }
-
-  /**
-    * @Route("/delete-entity-author", name="delete_entity_author")
-    * @Method({"GET"})
-    */
-  public function deleteEntityAuthorAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
-    $operations = $this->get('test_entity_operations');
-    $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $entityDecorator = $operations->createTestEntity($user, true);
+    $entityDecorator = $operations->createTestEntity($author, true);
     $entityDecorator->delete();
     $result = $operations->getMultipleEntityResult(true);
     return new Response(count($result));

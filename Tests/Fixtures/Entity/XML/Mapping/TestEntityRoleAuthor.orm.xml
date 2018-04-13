@@ -12,19 +12,19 @@
       <read>
         <OR>
           <role>ROLE_ADMIN</role>
-          <flag>is_author</flag>
+          <flag>user_is_author</flag>
         </OR>
       </read>
       <update>
         <OR>
           <role>ROLE_ADMIN</role>
-          <flag>is_author</flag>
+          <flag>user_is_author</flag>
         </OR>
       </update>
       <delete>
         <OR>
           <role>ROLE_ADMIN</role>
-          <flag>is_author</flag>
+          <flag>user_is_author</flag>
         </OR>
       </delete>
     </permissions>
@@ -37,11 +37,11 @@
       <permissions>
         <get>
           <role>ROLE_ADMIN</role>
-          <flag>is_author</flag>
+          <flag>user_is_author</flag>
         </get>
         <set>
           <role>ROLE_ADMIN</role>
-          <flag>is_author</flag>
+          <flag>user_is_author</flag>
         </set>
       </permissions>
     </field>

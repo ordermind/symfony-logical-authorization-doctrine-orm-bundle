@@ -14,16 +14,16 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * @ORM\Entity(repositoryClass="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\Annotation\TestEntityHasAccountNoInterfaceRepository")
  * @Permissions({
  *   "create": {
- *     "flag": "has_account"
+ *     "flag": "user_has_account"
  *   },
  *   "read": {
- *     "flag": "has_account"
+ *     "flag": "user_has_account"
  *   },
  *   "update": {
- *     "flag": "has_account"
+ *     "flag": "user_has_account"
  *   },
  *   "delete": {
- *     "flag": "has_account"
+ *     "flag": "user_has_account"
  *   }
  * })
  */
@@ -44,10 +44,10 @@ class TestEntityHasAccountNoInterface
      * @ORM\Column(name="field1", type="string", length=255)
      * @Permissions({
      *   "get": {
-     *     "flag": "has_account"
+     *     "flag": "user_has_account"
      *   },
      *   "set": {
-     *     "flag": "has_account"
+     *     "flag": "user_has_account"
      *   }
      * })
      */

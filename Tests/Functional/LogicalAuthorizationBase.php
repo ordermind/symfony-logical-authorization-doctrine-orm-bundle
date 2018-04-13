@@ -176,7 +176,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnUnknownResultRoleAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$authenticated_user);
     $this->sendRequestAs('GET', '/test/count-unknown-result', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -186,7 +186,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnUnknownResultRoleDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $entities_count = $this->sendRequestAs('GET', '/test/count-unknown-result', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -199,7 +199,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnUnknownResultFlagBypassAccessAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-unknown-result', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -209,7 +209,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnUnknownResultFlagBypassAccessDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityNoBypassRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-unknown-result', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator']), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -222,7 +222,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnUnknownResultFlagHasAccountAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityHasAccountNoInterfaceRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-unknown-result', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -255,7 +255,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnUnknownResultFlagIsAuthorDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-unknown-result', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -270,7 +270,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnSingleEntityResultRoleAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $entityDecorator = $this->testEntityOperations->createTestEntity();
+    $entityDecorator = $this->testEntityOperations->createTestEntity(static::$authenticated_user);
     $this->sendRequestAs('GET', '/test/find-single-entity-result/' . $entityDecorator->getId(), array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -281,7 +281,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnSingleEntityResultRoleDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $entityDecorator = $this->testEntityOperations->createTestEntity();
+    $entityDecorator = $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/find-single-entity-result/' . $entityDecorator->getId(), array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -294,7 +294,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnSingleEntityResultFlagBypassAccessAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $entityDecorator = $this->testEntityOperations->createTestEntity();
+    $entityDecorator = $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/find-single-entity-result/' . $entityDecorator->getId(), array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -305,7 +305,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnSingleEntityResultFlagBypassAccessDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityNoBypassRepositoryDecorator);
-    $entityDecorator = $this->testEntityOperations->createTestEntity();
+    $entityDecorator = $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/find-single-entity-result/' . $entityDecorator->getId(), array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator']), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -318,7 +318,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnSingleEntityResultFlagHasAccountAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityHasAccountNoInterfaceRepositoryDecorator);
-    $entityDecorator = $this->testEntityOperations->createTestEntity();
+    $entityDecorator = $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/find-single-entity-result/' . $entityDecorator->getId(), array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -353,7 +353,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnSingleEntityResultFlagIsAuthorDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $entityDecorator = $this->testEntityOperations->createTestEntity();
+    $entityDecorator = $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/find-single-entity-result/' . $entityDecorator->getId(), array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -368,7 +368,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnMultipleEntityResultRoleAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$authenticated_user);
     $this->sendRequestAs('GET', '/test/count-multiple-entity-result', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -378,7 +378,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnMultipleEntityResultRoleDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $entities_count = $this->sendRequestAs('GET', '/test/count-multiple-entity-result', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -391,7 +391,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnMultipleEntityResultFlagBypassAccessAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-multiple-entity-result', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -401,7 +401,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnMultipleEntityResultFlagBypassAccessDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityNoBypassRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-multiple-entity-result', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator']), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -414,7 +414,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnMultipleEntityResultFlagHasAccountAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityHasAccountNoInterfaceRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-multiple-entity-result', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -447,7 +447,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnMultipleEntityResultFlagIsAuthorDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-multiple-entity-result', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -518,7 +518,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnLazyEntityCollectionResultRoleAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$authenticated_user);
     $this->sendRequestAs('GET', '/test/count-entities-lazy', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -528,7 +528,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnLazyEntityCollectionResultRoleDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $entities_count = $this->sendRequestAs('GET', '/test/count-entities-lazy', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -541,7 +541,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnLazyEntityCollectionResultFlagBypassAccessAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-entities-lazy', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -551,7 +551,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnLazyEntityCollectionResultFlagBypassAccessDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityNoBypassRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-entities-lazy', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator']), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -564,7 +564,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnLazyEntityCollectionResultFlagHasAccountAllow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityHasAccountNoInterfaceRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-entities-lazy', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -597,7 +597,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
 
   public function testOnLazyEntityCollectionResultFlagIsAuthorDisallow() {
     $this->testEntityOperations->setRepositoryDecorator($this->testEntityRoleAuthorRepositoryDecorator);
-    $this->testEntityOperations->createTestEntity();
+    $this->testEntityOperations->createTestEntity(static::$admin_user);
     $this->sendRequestAs('GET', '/test/count-entities-lazy', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -613,7 +613,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   /*---onBeforeMethodCall getter---*/
 
   public function testOnBeforeMethodCallGetterRoleAllow() {
-    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
+    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$authenticated_user->getId()), static::$admin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -621,7 +621,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallGetterRoleDisallow() {
-    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -629,7 +629,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallGetterFlagBypassAccessAllow() {
-    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$superadmin_user);
+    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -637,7 +637,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallGetterFlagBypassAccessDisallow() {
-    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator']), static::$superadmin_user);
+    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -645,7 +645,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallGetterFlagHasAccountAllow() {
-    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -653,7 +653,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallGetterFlagHasAccountDisallow() {
-    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']));
+    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator'], 'author' => static::$admin_user->getId()));
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -661,7 +661,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallGetterFlagIsAuthorAllow() {
-    $this->sendRequestAs('GET', '/test/call-method-getter-author', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$authenticated_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -669,7 +669,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallGetterFlagIsAuthorDisallow() {
-    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/call-method-getter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -679,7 +679,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   /*---onBeforeMethodCall setter---*/
 
   public function testOnBeforeMethodCallSetterRoleAllow() {
-    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
+    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$authenticated_user->getId()), static::$admin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -687,7 +687,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallSetterRoleDisallow() {
-    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -695,7 +695,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallSetterFlagBypassAccessAllow() {
-    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$superadmin_user);
+    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -703,7 +703,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallSetterFlagBypassAccessDisallow() {
-    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator']), static::$superadmin_user);
+    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -711,7 +711,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallSetterFlagHasAccountAllow() {
-    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -719,7 +719,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallSetterFlagHasAccountDisallow() {
-    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']));
+    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator'], 'author' => static::$admin_user->getId()));
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -727,7 +727,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallSetterFlagIsAuthorAllow() {
-    $this->sendRequestAs('GET', '/test/call-method-setter-author', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$authenticated_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -735,7 +735,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeMethodCallSetterFlagIsAuthorDisallow() {
-    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/call-method-setter', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -795,7 +795,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   /*---onBeforeSave update---*/
 
   public function testOnBeforeSaveUpdateRoleAllow() {
-    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
+    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$authenticated_user->getId()), static::$admin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -803,7 +803,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeSaveUpdateRoleDisallow() {
-    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -811,7 +811,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeSaveUpdateFlagBypassAccessAllow() {
-    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$superadmin_user);
+    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -819,7 +819,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeSaveUpdateFlagBypassAccessDisallow() {
-    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator']), static::$superadmin_user);
+    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -827,7 +827,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeSaveUpdateFlagHasAccountAllow() {
-    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -835,7 +835,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeSaveUpdateFlagHasAccountDisallow() {
-    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']));
+    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator'], 'author' => static::$admin_user->getId()));
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -843,7 +843,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeSaveUpdateFlagIsAuthorAllow() {
-    $this->sendRequestAs('GET', '/test/save-entity-update-author', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$authenticated_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -851,7 +851,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeSaveUpdateFlagIsAuthorDisallow() {
-    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']));
+    $this->sendRequestAs('GET', '/test/save-entity-update', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()));
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $field_value = $response->getContent();
@@ -861,7 +861,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   /*---onBeforeDelete---*/
 
   public function testOnBeforeDeleteRoleAllow() {
-    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$admin_user);
+    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$authenticated_user->getId()), static::$admin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $entities_count = $response->getContent();
@@ -869,7 +869,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeDeleteRoleDisallow() {
-    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $entities_count = $response->getContent();
@@ -877,7 +877,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeDeleteFlagBypassAccessAllow() {
-    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$superadmin_user);
+    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $entities_count = $response->getContent();
@@ -885,7 +885,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeDeleteFlagBypassAccessDisallow() {
-    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator']), static::$superadmin_user);
+    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityNoBypassRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$superadmin_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $entities_count = $response->getContent();
@@ -893,7 +893,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeDeleteFlagHasAccountAllow() {
-    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator'], 'author' => static::$admin_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $entities_count = $response->getContent();
@@ -901,7 +901,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeDeleteFlagHasAccountDisallow() {
-    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator']));
+    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityHasAccountNoInterfaceRepositoryDecorator'], 'author' => static::$admin_user->getId()));
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $entities_count = $response->getContent();
@@ -909,7 +909,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeDeleteFlagIsAuthorAllow() {
-    $this->sendRequestAs('GET', '/test/delete-entity-author', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']), static::$authenticated_user);
+    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$authenticated_user->getId()), static::$authenticated_user);
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $entities_count = $response->getContent();
@@ -917,7 +917,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
   }
 
   public function testOnBeforeDeleteFlagIsAuthorDisallow() {
-    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator']));
+    $this->sendRequestAs('GET', '/test/delete-entity', array('repository_decorator_service' => $this->load_services['testEntityRoleAuthorRepositoryDecorator'], 'author' => static::$admin_user->getId()));
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $entities_count = $response->getContent();

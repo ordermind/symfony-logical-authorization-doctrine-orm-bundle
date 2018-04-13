@@ -6,7 +6,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
   permissions:
     create: false
     read:
-      flag: has_account
+      flag: user_has_account
     update:
       role: ROLE_ADMIN
     delete:
@@ -29,7 +29,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
       length: 255
       permissions:
         get:
-          flag: has_account
+          flag: user_has_account
         set:
           role: ROLE_ADMIN
     field2:
@@ -38,7 +38,7 @@ Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEn
       permissions:
         get: false
         set:
-          flag: is_author
+          flag: user_is_author
     field3:
       type: string
       length: 255

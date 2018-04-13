@@ -10,7 +10,7 @@
         <value>FALSE</value>
       </create>
       <read>
-        <flag>has_account</flag>
+        <flag>user_has_account</flag>
       </read>
       <update>
         <role>ROLE_ADMIN</role>
@@ -34,7 +34,7 @@
     <field name="field1" column="field1" type="string" length="255">
       <permissions>
         <get>
-          <flag>has_account</flag>
+          <flag>user_has_account</flag>
         </get>
         <set>
           <role>ROLE_ADMIN</role>
@@ -48,7 +48,7 @@
           <value>FALSE</value>
         </get>
         <set>
-        <flag>is_author</flag>
+        <flag>user_is_author</flag>
         </set>
       </permissions>
     </field>

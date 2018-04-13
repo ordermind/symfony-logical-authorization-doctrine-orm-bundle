@@ -14,7 +14,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * @ORM\Entity(repositoryClass="Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\Annotation\TestEntityVariousPermissionsRepository")
  * @Permissions({
  *   "create": FALSE,
- *   "read": {"flag": "has_account"},
+ *   "read": {"flag": "user_has_account"},
  *   "update": {"role": "ROLE_ADMIN"},
  *   "delete": {"no_bypass": true, FALSE}
  * })
@@ -38,7 +38,7 @@ class TestEntityVariousPermissions implements ModelInterface
      *
      * @ORM\Column(name="field1", type="string", length=255)
      * @Permissions({
-     *   "get": {"flag": "has_account"},
+     *   "get": {"flag": "user_has_account"},
      *   "set": {"role": "ROLE_ADMIN"}
      * })
      */
@@ -50,7 +50,7 @@ class TestEntityVariousPermissions implements ModelInterface
      * @ORM\Column(name="field2", type="string", length=255)
      * @Permissions({
      *   "get": FALSE,
-     *   "set": {"flag": "is_author"}
+     *   "set": {"flag": "user_is_author"}
      * })
      */
     private $field2 = '';
