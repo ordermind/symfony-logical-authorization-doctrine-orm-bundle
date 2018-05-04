@@ -6,9 +6,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 use Doctrine\Common\Inflector\Inflector;
 
-use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeMethodCallEvent;
-use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeSaveEvent;
-use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeDeleteEvent;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeMethodCallEventInterface;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeSaveEventInterface;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeDeleteEventInterface;
 
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 
@@ -33,7 +33,7 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
     );
   }
 
-  public function onBeforeMethodCall(BeforeMethodCallEvent $event) {
+  public function onBeforeMethodCall(BeforeMethodCallEventInterface $event) {
     static $stored_methods;
     if(!isset($stored_methods)) $stored_methods = array();
 
@@ -130,7 +130,7 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
     return $methods;
   }
 
-  public function onBeforeSave(BeforeSaveEvent $event) {
+  public function onBeforeSave(BeforeSaveEventInterface $event) {
     $entity = $event->getEntity();
     if($event->isNew()) {
       if(!$this->laModel->checkModelAccess($entity, 'create')) {
@@ -144,7 +144,7 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
     }
   }
 
-  public function onBeforeDelete(BeforeDeleteEvent $event) {
+  public function onBeforeDelete(BeforeDeleteEventInterface $event) {
     $entity = $event->getEntity();
     if(!$event->isNew() && !$this->laModel->checkModelAccess($entity, 'delete')) {
       $event->setAbort(true);

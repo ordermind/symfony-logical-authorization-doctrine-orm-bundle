@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEvent;
+use Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\Permissions;
 
 class AddPermissions {
@@ -22,7 +22,7 @@ class AddPermissions {
     $this->ymlDriverClass = $ymlDriverClass;
   }
 
-  public function onAddPermissions(AddPermissionsEvent $event) {
+  public function onAddPermissions(AddPermissionsEventInterface $event) {
     $object_managers = $this->managerRegistry->getManagers();
     foreach($object_managers as $em) {
       $metadataDriverImplementation = $em->getConfiguration()->getMetadataDriverImpl();
@@ -42,7 +42,7 @@ class AddPermissions {
     }
   }
 
-  protected function addAnnotationPermissions(AddPermissionsEvent $event, MappingDriver $driver, ObjectManager $em) {
+  protected function addAnnotationPermissions(AddPermissionsEventInterface $event, MappingDriver $driver, ObjectManager $em) {
     $classes = $driver->getAllClassNames();
     $annotationReader = $driver->getReader();
     $permissionTree = [];
@@ -70,7 +70,7 @@ class AddPermissions {
     $event->insertTree($permissionTree);
   }
 
-  protected function addXMLPermissions(AddPermissionsEvent $event, MappingDriver $driver) {
+  protected function addXMLPermissions(AddPermissionsEventInterface $event, MappingDriver $driver) {
     $classes = $driver->getAllClassNames();
     $permissionTree = [];
     foreach($classes as $class) {
@@ -97,7 +97,7 @@ class AddPermissions {
     $event->insertTree($permissionTree);
   }
 
-  protected function addYMLPermissions(AddPermissionsEvent $event, MappingDriver $driver) {
+  protected function addYMLPermissions(AddPermissionsEventInterface $event, MappingDriver $driver) {
     $classes = $driver->getAllClassNames();
     $permissionTree = [];
     foreach($classes as $class) {
