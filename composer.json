@@ -1,6 +1,6 @@
 {
     "name": "ordermind/logical-authorization-doctrine-orm-bundle",
-    "version": "0.2.3",
+    "version": "0.3.0",
     "license": "MIT",
     "description": "Doctrine ORM integration for LogicalAuthorization bundle",
     "keywords": ["doctrine", "orm", "logical-authorization"],
