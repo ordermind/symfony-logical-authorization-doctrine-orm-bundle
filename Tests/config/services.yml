@@ -179,3 +179,11 @@ services:
         arguments:
             - Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\YML\TestEntityVariousPermissions
         public: true
+
+    test.logauth.service.logauth_model:
+        alias: logauth.service.logauth_model
+        public: true
+
+    test.logauth.service.helper:
+        alias: logauth.service.helper
+        public: true

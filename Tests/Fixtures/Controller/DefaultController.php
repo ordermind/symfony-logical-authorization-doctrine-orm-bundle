@@ -149,7 +149,7 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function getAvailableActionsAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
+    $user = $this->get('test.logauth.service.helper')->getCurrentUser();
     $operations = $this->get('test_entity_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
     $entityDecorator = $operations->createTestEntity($user, true);
