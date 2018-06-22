@@ -11,7 +11,7 @@ interface BeforeSaveEventInterface
   /**
    * Gets the entity that is about to be saved
    *
-   * @return mixed
+   * @return object
    */
     public function getEntity();
 

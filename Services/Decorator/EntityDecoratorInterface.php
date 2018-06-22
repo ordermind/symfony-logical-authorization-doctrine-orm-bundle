@@ -15,7 +15,7 @@ interface EntityDecoratorInterface extends ModelDecoratorInterface
   /**
    * Gets the entity that is wrapped by this decorator
    *
-   * @return mixed
+   * @return object
    */
     public function getEntity();
 

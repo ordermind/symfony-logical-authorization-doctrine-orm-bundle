@@ -11,7 +11,7 @@ interface BeforeMethodCallEventInterface
   /**
    * Gets the entity on which the call is made
    *
-   * @return mixed
+   * @return object
    */
     public function getEntity();
 

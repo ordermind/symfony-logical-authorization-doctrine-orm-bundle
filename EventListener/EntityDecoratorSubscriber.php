@@ -15,10 +15,18 @@ use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInter
 class EntityDecoratorSubscriber implements EventSubscriberInterface {
   protected $laModel;
 
+  /**
+   * @internal
+   *
+   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationModel service for checking model permissions
+   */
   public function __construct(LogicalAuthorizationModelInterface $laModel) {
     $this->laModel = $laModel;
   }
 
+  /**
+    * {@inheritdoc}
+    */
   public static function getSubscribedEvents() {
     return array(
       'logauth_doctrine_orm.event.entity_decorator.before_method_call' => array(
@@ -33,6 +41,11 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
     );
   }
 
+  /**
+   * Event subscriber callback for aborting method call on entity if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeMethodCallEventInterface $event The subscribed event
+   */
   public function onBeforeMethodCall(BeforeMethodCallEventInterface $event) {
     static $stored_methods;
     if(!isset($stored_methods)) $stored_methods = array();
@@ -106,6 +119,37 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
     }
   }
 
+  /**
+   * Event subscriber callback for aborting saving of entity if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeSaveEventInterface $event The subscribed event
+   */
+  public function onBeforeSave(BeforeSaveEventInterface $event) {
+    $entity = $event->getEntity();
+    if($event->isNew()) {
+      if(!$this->laModel->checkModelAccess($entity, 'create')) {
+        $event->setAbort(true);
+      }
+    }
+    else {
+      if(!$this->laModel->checkModelAccess($entity, 'update')) {
+        $event->setAbort(true);
+      }
+    }
+  }
+
+  /**
+   * Event subscriber callback for aborting deletion of entity if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeDeleteEventInterface $event The subscribed event
+   */
+  public function onBeforeDelete(BeforeDeleteEventInterface $event) {
+    $entity = $event->getEntity();
+    if(!$event->isNew() && !$this->laModel->checkModelAccess($entity, 'delete')) {
+      $event->setAbort(true);
+    }
+  }
+
   protected function getFieldMethods($entity, $field_name) {
     $camelizedFieldName = Inflector::classify($field_name);
 
@@ -128,26 +172,5 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
     }
 
     return $methods;
-  }
-
-  public function onBeforeSave(BeforeSaveEventInterface $event) {
-    $entity = $event->getEntity();
-    if($event->isNew()) {
-      if(!$this->laModel->checkModelAccess($entity, 'create')) {
-        $event->setAbort(true);
-      }
-    }
-    else {
-      if(!$this->laModel->checkModelAccess($entity, 'update')) {
-        $event->setAbort(true);
-      }
-    }
-  }
-
-  public function onBeforeDelete(BeforeDeleteEventInterface $event) {
-    $entity = $event->getEntity();
-    if(!$event->isNew() && !$this->laModel->checkModelAccess($entity, 'delete')) {
-      $event->setAbort(true);
-    }
   }
 }

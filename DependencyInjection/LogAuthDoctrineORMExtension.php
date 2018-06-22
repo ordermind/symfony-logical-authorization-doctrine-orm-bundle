@@ -27,6 +27,9 @@ class LogAuthDoctrineORMExtension extends Extension
         $loader->load('services.yml');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getAlias()
     {
         return 'logauth_doctrine_orm';

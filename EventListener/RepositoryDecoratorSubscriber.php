@@ -19,11 +19,20 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
   protected $laModel;
   protected $config;
 
+  /**
+   * @internal
+   *
+   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationModel service for checking model permissions
+   * @param array $config The logauth_doctrine_orm.config parameter
+   */
   public function __construct(LogicalAuthorizationModelInterface $laModel, array $config) {
     $this->laModel = $laModel;
     $this->config = $config;
   }
 
+  /**
+    * {@inheritdoc}
+    */
   public static function getSubscribedEvents() {
     return array(
       'logauth_doctrine_orm.event.repository_decorator.unknown_result' => array(
@@ -44,21 +53,50 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
     );
   }
 
+  /**
+   * Event subscriber callback for modifying an unknown result from a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\UnknownResultEventInterface $event The subscribed event
+   */
   public function onUnknownResult(UnknownResultEventInterface $event) {
     $this->onResult($event);
   }
+
+  /**
+   * Event subscriber callback for modifying a single entity result from a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\SingleEntityResultEventInterface $event The subscribed event
+   */
   public function onSingleEntityResult(SingleEntityResultEventInterface $event) {
     $this->onResult($event);
   }
+
+  /**
+   * Event subscriber callback for modifying a multiple entity result from a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\MultipleEntityResultEventInterface $event The subscribed event
+   */
   public function onMultipleEntityResult(MultipleEntityResultEventInterface $event) {
     $this->onResult($event);
   }
+
+  /**
+   * Event subscriber callback for aborting the creation of a entity by a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\BeforeCreateEventInterface $event The subscribed event
+   */
   public function onBeforeCreate(BeforeCreateEventInterface $event) {
     $class = $event->getEntityClass();
     if(!$this->laModel->checkModelAccess($class, 'create')) {
       $event->setAbort(true);
     }
   }
+
+  /**
+   * Event subscriber callback for modifying a lazy entity collection result from a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\LazyEntityCollectionResultEventInterface $event The subscribed event
+   */
   public function onLazyEntityCollectionResult(LazyEntityCollectionResultEventInterface $event) {
     if(empty($this->config['check_lazy_loaded_entities'])) return;
 

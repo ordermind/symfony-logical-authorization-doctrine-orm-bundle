@@ -11,7 +11,7 @@ class BeforeDeleteEvent extends Event implements BeforeDeleteEventInterface
 {
 
   /**
-   * @var mixed
+   * @var object
    */
     protected $entity;
 
@@ -28,7 +28,7 @@ class BeforeDeleteEvent extends Event implements BeforeDeleteEventInterface
   /**
    * @internal
    *
-   * @param mixed $entity The entity that is about to be deleted
+   * @param object $entity The entity that is about to be deleted
    * @param bool  $isNew A flag for the persistence status of the entity
    */
     public function __construct($entity, $isNew)

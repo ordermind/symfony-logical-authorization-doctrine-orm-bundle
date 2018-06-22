@@ -11,7 +11,7 @@ interface BeforeDeleteEventInterface
   /**
    * Gets the entity that is about to be deleted
    *
-   * @return mixed
+   * @return object
    */
     public function getEntity();
 
