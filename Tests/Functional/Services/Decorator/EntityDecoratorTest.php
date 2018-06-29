@@ -10,35 +10,35 @@ use Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\T
 class EntityDecoratorTest extends DecoratorBase {
 
   public function testClass() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $this->assertTrue($entityDecorator instanceof EntityDecorator);
   }
 
   public function testGetEntity() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $entity = $entityDecorator->getEntity();
     $this->assertTrue($entity instanceof TestEntity);
   }
 
   public function testSetObjectManager() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setEntityManager($this->container->get('doctrine.orm.entity_manager'));
+    $entityDecorator->setEntityManager(static::$container->get('doctrine.orm.entity_manager'));
     $em = $entityDecorator->getEntityManager();
     $this->assertTrue($em instanceof EntityManager);
   }
 
   public function testGetObjectManager() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $em = $entityDecorator->getEntityManager();
     $this->assertTrue($em instanceof EntityManager);
   }
 
   public function testSave() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $entityDecorator->setField1('test');
     $entityDecorator->save();
@@ -47,7 +47,7 @@ class EntityDecoratorTest extends DecoratorBase {
   }
 
   public function testSaveNoFlush() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $entityDecorator->setField1('test');
     $entityDecorator->save(false);
@@ -60,7 +60,7 @@ class EntityDecoratorTest extends DecoratorBase {
   }
 
   public function testSaveAbort() {
-    $repositoryDecorator = $this->container->get('repository.test_entity_abort_save');
+    $repositoryDecorator = static::$container->get('repository.test_entity_abort_save');
     $entityDecorator = $repositoryDecorator->create();
     $entityDecorator->setField1('test');
     $response = $entityDecorator->save();
@@ -70,7 +70,7 @@ class EntityDecoratorTest extends DecoratorBase {
   }
 
   public function testDelete() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $entityDecorator->setField1('test');
     $entityDecorator->save();
@@ -82,7 +82,7 @@ class EntityDecoratorTest extends DecoratorBase {
   }
 
   public function testDeleteNoFlush() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $entityDecorator->setField1('test');
     $entityDecorator->save();
@@ -98,7 +98,7 @@ class EntityDecoratorTest extends DecoratorBase {
   }
 
   public function testDeleteAbort() {
-    $repositoryDecorator = $this->container->get('repository.test_entity_abort_delete');
+    $repositoryDecorator = static::$container->get('repository.test_entity_abort_delete');
     $entityDecorator = $repositoryDecorator->create();
     $entityDecorator->setField1('test');
     $entityDecorator->save();
@@ -111,14 +111,14 @@ class EntityDecoratorTest extends DecoratorBase {
   }
 
   public function testCall() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $entityDecorator->setField1('test');
     $this->assertEquals('test', $entityDecorator->getEntity()->getField1());
   }
 
   public function testCallAbort() {
-    $repositoryDecorator = $this->container->get('repository.test_entity_abort_calls');
+    $repositoryDecorator = static::$container->get('repository.test_entity_abort_calls');
     $entityDecorator = $repositoryDecorator->create();
     $entity = $entityDecorator->getEntity();
     $response = $entityDecorator->setField1('test');
@@ -130,7 +130,7 @@ class EntityDecoratorTest extends DecoratorBase {
   }
 
   public function testIsNew() {
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $this->assertTrue($entityDecorator->isNew());
     $entityDecorator->save();
@@ -140,8 +140,8 @@ class EntityDecoratorTest extends DecoratorBase {
   }
 
   public function testGetAvailableActions() {
-    $laModel = $this->container->get('test.logauth.service.logauth_model');
-    $repositoryDecorator = $this->container->get('repository.test_entity');
+    $laModel = static::$container->get('test.logauth.service.logauth_model');
+    $repositoryDecorator = static::$container->get('repository.test_entity');
     $entityDecorator = $repositoryDecorator->create();
     $entity = $entityDecorator->getEntity();
     $available_actions_decorator = $entityDecorator->getAvailableActions('anon.');
