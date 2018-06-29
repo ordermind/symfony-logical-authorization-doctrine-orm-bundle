@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener;
 
@@ -13,6 +14,9 @@ use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 
 class EntityDecoratorSubscriber implements EventSubscriberInterface {
+  /**
+   * @var Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface
+   */
   protected $laModel;
 
   /**
@@ -27,18 +31,18 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
   /**
     * {@inheritdoc}
     */
-  public static function getSubscribedEvents() {
-    return array(
-      'logauth_doctrine_orm.event.entity_decorator.before_method_call' => array(
-        array('onBeforeMethodCall'),
-      ),
-      'logauth_doctrine_orm.event.entity_decorator.before_save' => array(
-        array('onBeforeSave'),
-      ),
-      'logauth_doctrine_orm.event.entity_decorator.before_delete' => array(
-        array('onBeforeDelete'),
-      ),
-    );
+  public static function getSubscribedEvents(): array {
+    return [
+      'logauth_doctrine_orm.event.entity_decorator.before_method_call' => [
+        ['onBeforeMethodCall'],
+      ],
+      'logauth_doctrine_orm.event.entity_decorator.before_save' => [
+        ['onBeforeSave'],
+      ],
+      'logauth_doctrine_orm.event.entity_decorator.before_delete' => [
+        ['onBeforeDelete'],
+      ],
+    ];
   }
 
   /**
@@ -48,7 +52,7 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
    */
   public function onBeforeMethodCall(BeforeMethodCallEventInterface $event) {
     static $stored_methods;
-    if(!isset($stored_methods)) $stored_methods = array();
+    if(!isset($stored_methods)) $stored_methods = [];
 
     $entity = $event->getEntity();
     $method = $event->getMethod();
@@ -73,7 +77,7 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
       if(!isset($stored_methods[$class])) {
         $metadata = $event->getMetadata();
         $field_names = $metadata->getFieldNames();
-        $stored_methods[$class] = array();
+        $stored_methods[$class] = [];
         foreach($field_names as $field_name) {
           $stored_methods[$class][$field_name] = $this->getFieldMethods($entity, $field_name);
         }
@@ -150,18 +154,18 @@ class EntityDecoratorSubscriber implements EventSubscriberInterface {
     }
   }
 
-  protected function getFieldMethods($entity, $field_name) {
+  protected function getFieldMethods($entity, string $field_name): array {
     $camelizedFieldName = Inflector::classify($field_name);
 
-    $methods = array(
-      'getters' => array(
+    $methods = [
+      'getters' => [
         "get$camelizedFieldName",
         "is$camelizedFieldName",
-      ),
-      'setters' => array(
+      ],
+      'setters' => [
         "set$camelizedFieldName",
-      ),
-    );
+      ],
+    ];
 
     foreach ($methods as $action => $action_methods) {
       foreach($action_methods as $i => $method) {

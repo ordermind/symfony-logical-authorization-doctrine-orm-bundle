@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents;
 
@@ -13,23 +14,23 @@ interface AbstractResultEventInterface
   /**
    * Gets the repository which returned the result
    *
-   * @return Doctrine\Common\Persistence\ObjectRepository
+   * @return Doctrine\ORM\EntityRepository
    */
-    public function getRepository();
+    public function getRepository(): \Doctrine\ORM\EntityRepository;
 
   /**
    * Gets the method that was used for the call
    *
    * @return string
    */
-    public function getMethod();
+    public function getMethod(): string;
 
   /**
    * Gets the arguments for the call
    *
    * @return array
    */
-    public function getArguments();
+    public function getArguments(): array;
 
   /**
    * Gets the returned result

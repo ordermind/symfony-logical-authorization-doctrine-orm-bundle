@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator;
 
@@ -22,18 +23,18 @@ interface EntityDecoratorInterface extends ModelDecoratorInterface
   /**
    * Overrides the entity manager that is used in this decorator
    *
-   * @param Doctrine\Common\Persistence\ObjectManager $em The entity manager that is to be used in this decorator
+   * @param Doctrine\ORM\EntityManager $em The entity manager that is to be used in this decorator
    *
    * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecorator
    */
-    public function setEntityManager(\Doctrine\Common\Persistence\ObjectManager $em);
+    public function setEntityManager(\Doctrine\ORM\EntityManager $em);
 
   /**
    * Gets the entity manager that is used in this decorator
    *
-   * @return Doctrine\Common\Persistence\ObjectManager
+   * @return Doctrine\ORM\EntityManager
    */
-    public function getEntityManager();
+    public function getEntityManager(): \Doctrine\ORM\EntityManager;
 
   /**
    * Gets all available entity and field actions on this entity for a given user
@@ -46,14 +47,14 @@ interface EntityDecoratorInterface extends ModelDecoratorInterface
    *
    * @return array A map of available actions
    */
-    public function getAvailableActions($user = null, $entity_actions = array('create', 'read', 'update', 'delete'), $field_actions = array('get', 'set'));
+    public function getAvailableActions($user = null, array $entity_actions = ['create', 'read', 'update', 'delete'], array $field_actions = ['get', 'set']);
 
   /**
    * Returns TRUE if the entity is new. Returns FALSE if the entity is persisted.
    *
    * @return bool
    */
-    public function isNew();
+    public function isNew(): bool;
 
   /**
    * Saves the wrapped entity
@@ -66,7 +67,7 @@ interface EntityDecoratorInterface extends ModelDecoratorInterface
    *
    * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface|FALSE
    */
-    public function save($andFlush = true);
+    public function save(bool $andFlush = true);
 
   /**
    * Deletes the wrapped entity
@@ -79,5 +80,5 @@ interface EntityDecoratorInterface extends ModelDecoratorInterface
    *
    * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface|FALSE
    */
-    public function delete($andFlush = true);
+    public function delete(bool $andFlush = true);
 }

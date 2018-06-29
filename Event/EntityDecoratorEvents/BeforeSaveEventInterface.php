@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents;
 
@@ -20,19 +21,19 @@ interface BeforeSaveEventInterface
    *
    * @return bool
    */
-    public function isNew();
+    public function isNew(): bool;
 
   /**
    * Gets the abort flag value for this save call
    *
    * @return bool
    */
-    public function getAbort();
+    public function getAbort(): bool;
 
   /**
    * Sets the abort flag value for this save call. If the abort flag is set to true the entity won't be saved
    *
    * @param bool $abort The new value for the abort flag
    */
-    public function setAbort($abort);
+    public function setAbort(bool $abort);
 }

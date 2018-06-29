@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Functional\Services\Decorator;
 
@@ -186,8 +187,11 @@ class RepositoryDecoratorTest extends DecoratorBase {
   public function testWrapEntitiesSingleEntity() {
     $repositoryDecorator = $this->container->get('repository.test_entity');
     $entity = new TestEntity();
-    $entityDecorator = $repositoryDecorator->wrapEntities($entity);
-    $this->assertTrue($entityDecorator instanceof EntityDecorator);
+    $entityDecorators = $repositoryDecorator->wrapEntities($entity);
+    $this->assertEquals(1, count($entityDecorators));
+    foreach($entityDecorators as $entityDecorator) {
+      $this->assertTrue($entityDecorator instanceof EntityDecorator);
+    }
   }
 
   public function testWrapEntities() {

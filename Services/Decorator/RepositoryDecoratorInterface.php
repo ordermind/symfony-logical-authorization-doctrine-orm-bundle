@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator;
 
@@ -18,30 +19,30 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return string
    */
-    public function getClassName();
+    public function getClassName(): string;
 
   /**
    * Overrides the entity manager that is used in this decorator
    *
-   * @param Doctrine\Common\Persistence\ObjectManager $em The entity manager that is to be used in this decorator
+   * @param Doctrine\ORM\EntityManager $em The entity manager that is to be used in this decorator
    *
    * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator
    */
-    public function setEntityManager(\Doctrine\Common\Persistence\ObjectManager $em);
+    public function setEntityManager(\Doctrine\ORM\EntityManager $em);
 
   /**
    * Gets the entity manager that is used in this decorator
    *
-   * @return Doctrine\Common\Persistence\ObjectManager
+   * @return Doctrine\ORM\EntityManager
    */
-    public function getEntityManager();
+    public function getEntityManager(): \Doctrine\ORM\EntityManager;
 
   /**
    * Gets the repository that is wrapped by this decorator
    *
-   * @return Doctrine\Common\Persistence\ObjectRepository
+   * @return Doctrine\ORM\EntityRepository
    */
-    public function getRepository();
+    public function getRepository(): \Doctrine\ORM\EntityRepository;
 
   /**
    * Finds a entity by its identifier
@@ -54,7 +55,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface|NULL
    */
-    public function find($id, $lockMode = null, $lockVersion = null);
+    public function find($id, $lockMode = null, $lockVersion = null): ?\Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface;
 
   /**
    * Finds all entities for this repository decorator
@@ -63,7 +64,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return array
    */
-    public function findAll();
+    public function findAll(): array;
 
   /**
    * Finds entities for this repository decorator filtered by a set of criteria
@@ -77,7 +78,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return array
    */
-    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null);
+    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null): array;
 
   /**
    * Finds a entity for this repository decorator filtered by a set of criteria
@@ -88,7 +89,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface|NULL
    */
-    public function findOneBy(array $criteria);
+    public function findOneBy(array $criteria): ?\Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface;
 
   /**
    * Finds entities for this repository decorator filtered by a set of criteria
@@ -97,9 +98,9 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @param Doctrine\Common\Collections\Criteria $criteria Query criteria
    *
-   * @return Doctrine\Common\Collections\ArrayCollection
+   * @return Doctrine\ORM\LazyCriteriaCollection
    */
-    public function matching(\Doctrine\Common\Collections\Criteria $criteria);
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria): \Doctrine\ORM\LazyCriteriaCollection;
 
   /**
    * Creates a new entity decorator
@@ -112,7 +113,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface|NULL
    */
-    public function create();
+    public function create(): ?\Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface;
 
   /**
    * Wraps an array of entities in entity decorators
@@ -121,9 +122,9 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @param array $entities The entities to be wrapped in entity decorators
    *
-   * @return array
+   * @return array|NULL
    */
-    public function wrapEntities($entities);
+    public function wrapEntities($entities): ?array;
 
   /**
    * Wraps a entity in a entity decorator

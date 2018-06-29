@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener;
 
@@ -16,7 +17,14 @@ use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEve
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 
 class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
+  /**
+   * @var Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface
+   */
   protected $laModel;
+
+  /**
+   * @var array
+   */
   protected $config;
 
   /**
@@ -34,23 +42,23 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
     * {@inheritdoc}
     */
   public static function getSubscribedEvents() {
-    return array(
-      'logauth_doctrine_orm.event.repository_decorator.unknown_result' => array(
-        array('onUnknownResult'),
-      ),
-      'logauth_doctrine_orm.event.repository_decorator.single_entity_result' => array(
-        array('onSingleEntityResult'),
-      ),
-      'logauth_doctrine_orm.event.repository_decorator.multiple_entity_result' => array(
-        array('onMultipleEntityResult'),
-      ),
-      'logauth_doctrine_orm.event.repository_decorator.before_create' => array(
-        array('onBeforeCreate'),
-      ),
-      'logauth_doctrine_orm.event.repository_decorator.lazy_entity_collection_result' => array(
-        array('onLazyEntityCollectionResult'),
-      ),
-    );
+    return [
+      'logauth_doctrine_orm.event.repository_decorator.unknown_result' => [
+        ['onUnknownResult'],
+      ],
+      'logauth_doctrine_orm.event.repository_decorator.single_entity_result' => [
+        ['onSingleEntityResult'],
+      ],
+      'logauth_doctrine_orm.event.repository_decorator.multiple_entity_result' => [
+        ['onMultipleEntityResult'],
+      ],
+      'logauth_doctrine_orm.event.repository_decorator.before_create' => [
+        ['onBeforeCreate'],
+      ],
+      'logauth_doctrine_orm.event.repository_decorator.lazy_entity_collection_result' => [
+        ['onLazyEntityCollectionResult'],
+      ],
+    ];
   }
 
   /**
@@ -119,14 +127,14 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
 
     $event->setResult($filtered_result);
   }
-  protected function filterEntities($entities, $class) {
+  protected function filterEntities(array $entities, string $class): array {
     foreach($entities as $i => $entity) {
       $entities[$i] = $this->filterEntityByPermissions($entity, $class);
     }
     $entities = array_filter($entities);
     return $entities;
   }
-  protected function filterEntityCollection($collection, $class) {
+  protected function filterEntityCollection(Collection $collection, string $class): Collection {
     foreach($collection as $i => $entity) {
       if(is_null($this->filterEntityByPermissions($entity, $class))) {
         $collection->remove($i);
@@ -134,7 +142,7 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
     }
     return $collection;
   }
-  protected function filterEntityByPermissions($entity, $class) {
+  protected function filterEntityByPermissions($entity, string $class) {
     if(!is_object($entity) || get_class($entity) !== $class) return $entity;
 
     if(!$this->laModel->checkModelAccess($entity, 'read')) {

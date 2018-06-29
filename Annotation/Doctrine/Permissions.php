@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine;
 
@@ -6,6 +7,9 @@ namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine;
  * @Annotation
  */
 class Permissions {
+  /**
+   * @var mixed
+   */
   protected $permissions;
 
   public function __construct(array $data) {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\DependencyInjection;
 
@@ -30,7 +31,7 @@ class LogAuthDoctrineORMExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'logauth_doctrine_orm';
     }

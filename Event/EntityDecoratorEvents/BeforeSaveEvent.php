@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents;
 
@@ -31,7 +32,7 @@ class BeforeSaveEvent extends Event implements BeforeSaveEventInterface
    * @param object $entity The entity that is about to be saved
    * @param bool  $isNew A flag for the persistence status of the entity
    */
-    public function __construct($entity, $isNew)
+    public function __construct($entity, bool $isNew)
     {
         $this->entity = $entity;
         $this->isNew = $isNew;
@@ -48,7 +49,7 @@ class BeforeSaveEvent extends Event implements BeforeSaveEventInterface
   /**
    * {@inheritdoc}
    */
-    public function isNew()
+    public function isNew(): bool
     {
         return $this->isNew;
     }
@@ -56,7 +57,7 @@ class BeforeSaveEvent extends Event implements BeforeSaveEventInterface
   /**
    * {@inheritdoc}
    */
-    public function getAbort()
+    public function getAbort(): bool
     {
         return $this->abort;
     }
@@ -64,8 +65,8 @@ class BeforeSaveEvent extends Event implements BeforeSaveEventInterface
   /**
    * {@inheritdoc}
    */
-    public function setAbort($abort)
+    public function setAbort(bool $abort)
     {
-        $this->abort = (bool) $abort;
+        $this->abort = $abort;
     }
 }

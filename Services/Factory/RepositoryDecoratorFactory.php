@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecorator;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecoratorInterface;
 use Ordermind\LogicalAuthorizationBundle\Services\HelperInterface;
 
 /**
@@ -68,7 +70,7 @@ class RepositoryDecoratorFactory implements RepositoryDecoratorFactoryInterface
   /**
    * {@inheritdoc}
    */
-    public function getRepositoryDecorator($class)
+    public function getRepositoryDecorator(string $class): RepositoryDecoratorInterface
     {
         $em = $this->managerRegistry->getManagerForClass($class);
 

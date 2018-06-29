@@ -1,11 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecorator;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface;
 
 /**
  * {@inheritdoc}
@@ -31,7 +33,7 @@ class EntityDecoratorFactory implements EntityDecoratorFactoryInterface
   /**
    * {@inheritdoc}
    */
-    public function getEntityDecorator(ObjectManager $em, EventDispatcherInterface $dispatcher, $entity)
+    public function getEntityDecorator(EntityManager $em, EventDispatcherInterface $dispatcher, $entity): EntityDecoratorInterface
     {
         return new EntityDecorator($em, $dispatcher, $this->laModel, $entity);
     }

@@ -1,18 +1,34 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\EventListener;
 
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 
 use Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine\Permissions;
 
 class AddPermissions {
+  /**
+   * @var ManagerRegistry
+   */
   protected $managerRegistry;
+
+  /**
+   * @var string
+   */
   protected $annotationDriverClass;
+
+  /**
+   * @var string
+   */
   protected $xmlDriverClass;
+
+  /**
+   * @var string
+   */
   protected $ymlDriverClass;
 
   /**
@@ -23,7 +39,7 @@ class AddPermissions {
    * @param string $xmlDriverClass The class for the XML driver
    * @param string $ymlDriverClass The class for the Yaml driver
    */
-  public function __construct(ManagerRegistry $managerRegistry, $annotationDriverClass, $xmlDriverClass, $ymlDriverClass) {
+  public function __construct(ManagerRegistry $managerRegistry, string $annotationDriverClass, string $xmlDriverClass, string $ymlDriverClass) {
     $this->managerRegistry = $managerRegistry;
     $this->annotationDriverClass = $annotationDriverClass;
     $this->xmlDriverClass = $xmlDriverClass;
@@ -53,7 +69,7 @@ class AddPermissions {
     }
   }
 
-  protected function addAnnotationPermissions(AddPermissionsEventInterface $event, MappingDriver $driver, ObjectManager $em) {
+  protected function addAnnotationPermissions(AddPermissionsEventInterface $event, MappingDriver $driver, EntityManager $em) {
     $classes = $driver->getAllClassNames();
     $annotationReader = $driver->getReader();
     $permissionTree = [];
@@ -132,7 +148,7 @@ class AddPermissions {
     $event->insertTree($permissionTree);
   }
 
-  protected function massagePermissionsRecursive($permissions) {
+  protected function massagePermissionsRecursive($permissions): array {
     $massaged_permissions = [];
     foreach($permissions as $key => $value) {
       if(is_array($value)) {

@@ -1,14 +1,18 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\LazyCriteriaCollection;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Services\HelperInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory\EntityDecoratorFactoryInterface;
+use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\UnknownResultEvent;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\SingleEntityResultEvent;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\MultipleEntityResultEvent;
@@ -22,12 +26,12 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
 {
 
   /**
-   * @var Doctrine\Common\Persistence\ObjectManager
+   * @var Doctrine\ORM\EntityManager
    */
     protected $em;
 
   /**
-   * @var Doctrine\Common\Persistence\ObjectRepository
+   * @var Doctrine\ORM\EntityRepository
    */
     protected $repository;
 
@@ -49,13 +53,13 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * @internal
    *
-   * @param Doctrine\Common\Persistence\ObjectManager                                     $em                  The entity manager to use in this decorator
+   * @param Doctrine\ORM\EntityManager                                  $em                  The entity manager to use in this decorator
    * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory\EntityDecoratorFactoryInterface $entityDecoratorFactory The factory to use for creating new entity decorators
    * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                    $dispatcher          The event dispatcher to use in this decorator
    * @param Ordermind\LogicalAuthorizationBundle\Services\HelperInterface $helper LogicalAuthorizaton helper service
    * @param string                                                                        $class               The entity class to use in this decorator
    */
-    public function __construct(ObjectManager $em, EntityDecoratorFactoryInterface $entityDecoratorFactory, EventDispatcherInterface $dispatcher, HelperInterface $helper, $class)
+    public function __construct(EntityManager $em, EntityDecoratorFactoryInterface $entityDecoratorFactory, EventDispatcherInterface $dispatcher, HelperInterface $helper, $class)
     {
         $this->em = $em;
         $this->repository = $em->getRepository($class);
@@ -67,7 +71,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getClassName()
+    public function getClassName(): string
     {
         $repository = $this->getRepository();
 
@@ -77,7 +81,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function setEntityManager(ObjectManager $em)
+    public function setEntityManager(EntityManager $em)
     {
         $this->em = $em;
 
@@ -87,7 +91,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getEntityManager()
+    public function getEntityManager(): EntityManager
     {
         return $this->em;
     }
@@ -95,7 +99,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getRepository()
+    public function getRepository(): EntityRepository
     {
         return $this->repository;
     }
@@ -103,7 +107,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function find($id, $lockMode = null, $lockVersion = null)
+    public function find($id, $lockMode = null, $lockVersion = null): ?EntityDecoratorInterface
     {
         $repository = $this->getRepository();
         $result = $repository->find($id, $lockMode, $lockVersion);
@@ -118,7 +122,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function findAll()
+    public function findAll(): array
     {
         $repository = $this->getRepository();
         $result = $repository->findAll();
@@ -133,7 +137,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null)
+    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null): array
     {
         $repository = $this->getRepository();
         $result = $repository->findBy($criteria, $sort, $limit, $skip);
@@ -148,7 +152,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function findOneBy(array $criteria)
+    public function findOneBy(array $criteria): ?EntityDecoratorInterface
     {
         $repository = $this->getRepository();
         $result = $repository->findOneBy($criteria);
@@ -163,7 +167,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function matching(Criteria $criteria)
+    public function matching(Criteria $criteria): LazyCriteriaCollection
     {
         $repository = $this->getRepository();
         $result = $repository->matching($criteria);
@@ -178,7 +182,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function create()
+    public function create(): ?EntityDecoratorInterface
     {
         $class = $this->getClassName();
 
@@ -207,10 +211,12 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function wrapEntities($entities)
+    public function wrapEntities($entities): ?array
     {
         if (!is_array($entities)) {
-            return $this->wrapEntity($entities);
+            if(is_null($entities)) return $entities;
+
+            return [$this->wrapEntity($entities)];
         }
 
         foreach ($entities as $i => $entity) {
@@ -251,10 +257,14 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.unknown_result', $event);
         $result = $event->getResult();
 
+        if(!is_array($result)) {
+          return $this->wrapEntity($result);
+        }
+
         return $this->wrapEntities($result);
     }
 
-    protected function getDispatcher()
+    protected function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
     }

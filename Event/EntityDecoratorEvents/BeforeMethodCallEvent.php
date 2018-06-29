@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents;
 
@@ -50,7 +51,7 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
    * @param string                                            $method    The method for the call
    * @param array                                             $arguments The arguments for the call
    */
-    public function __construct($entity, $isNew, ClassMetadata $metadata, $method, array $arguments)
+    public function __construct($entity, bool $isNew, ClassMetadata $metadata, string $method, array $arguments)
     {
         $this->entity = $entity;
         $this->isNew = $isNew;
@@ -70,7 +71,7 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
   /**
    * {@inheritdoc}
    */
-    public function isNew()
+    public function isNew(): bool
     {
         return $this->isNew;
     }
@@ -78,7 +79,7 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
   /**
    * {@inheritdoc}
    */
-    public function getMetadata()
+    public function getMetadata(): ClassMetadata
     {
         return $this->metadata;
     }
@@ -86,7 +87,7 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
   /**
    * {@inheritdoc}
    */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -94,7 +95,7 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
   /**
    * {@inheritdoc}
    */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -102,7 +103,7 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
   /**
    * {@inheritdoc}
    */
-    public function getAbort()
+    public function getAbort(): bool
     {
         return $this->abort;
     }
@@ -110,8 +111,8 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
   /**
    * {@inheritdoc}
    */
-    public function setAbort($abort)
+    public function setAbort(bool $abort)
     {
-        $this->abort = (bool) $abort;
+        $this->abort = $abort;
     }
 }

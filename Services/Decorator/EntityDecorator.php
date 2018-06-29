@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeMethodCallEvent;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\EntityDecoratorEvents\BeforeSaveEvent;
@@ -16,7 +17,7 @@ class EntityDecorator implements EntityDecoratorInterface
 {
 
   /**
-   * @var Doctrine\Common\Persistence\ObjectManager
+   * @var Doctrine\ORM\EntityManager
    */
     protected $em;
 
@@ -38,12 +39,12 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * @internal
    *
-   * @param Doctrine\Common\Persistence\ObjectManager                  $em         The entity manager to use in this decorator
+   * @param Doctrine\ORM\EntityManager                 $em         The entity manager to use in this decorator
    * @param Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher The event dispatcher to use in this decorator
    * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationEntity service
    * @param object                                                      $entity      The entity to wrap in this decorator
    */
-    public function __construct(ObjectManager $em, EventDispatcherInterface $dispatcher, LogicalAuthorizationModelInterface $laModel, $entity)
+    public function __construct(EntityManager $em, EventDispatcherInterface $dispatcher, LogicalAuthorizationModelInterface $laModel, $entity)
     {
         $this->em = $em;
         $this->dispatcher = $dispatcher;
@@ -70,7 +71,7 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function setEntityManager(ObjectManager $em)
+    public function setEntityManager(EntityManager $em)
     {
         $this->em = $em;
 
@@ -80,7 +81,7 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getEntityManager()
+    public function getEntityManager(): EntityManager
     {
         return $this->em;
     }
@@ -88,14 +89,14 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getAvailableActions($user = null, $entity_actions = array('create', 'read', 'update', 'delete'), $field_actions = array('get', 'set')) {
+    public function getAvailableActions($user = null, array $entity_actions = ['create', 'read', 'update', 'delete'], array $field_actions = ['get', 'set']) {
       return $this->laModel->getAvailableActions($this->getEntity(), $entity_actions, $field_actions, $user);
     }
 
   /**
    * {@inheritdoc}
    */
-    public function isNew()
+    public function isNew(): bool
     {
         $em = $this->getEntityManager();
         $entity = $this->getEntity();
@@ -106,7 +107,7 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function save($andFlush = true)
+    public function save(bool $andFlush = true)
     {
         $entity = $this->getEntity();
         $event = new BeforeSaveEvent($entity, $this->isNew());
@@ -128,7 +129,7 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function delete($andFlush = true)
+    public function delete(bool $andFlush = true)
     {
         $entity = $this->getEntity();
         $event = new BeforeDeleteEvent($entity, $this->isNew());
@@ -158,7 +159,7 @@ class EntityDecorator implements EntityDecoratorInterface
    *
    * @return mixed|NULL
    */
-    public function __call($method, array $arguments)
+    public function __call(string $method, array $arguments)
     {
         $em = $this->getEntityManager();
         $entity = $this->getEntity();
@@ -175,7 +176,7 @@ class EntityDecorator implements EntityDecoratorInterface
         return $result;
     }
 
-    protected function getDispatcher()
+    protected function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
     }

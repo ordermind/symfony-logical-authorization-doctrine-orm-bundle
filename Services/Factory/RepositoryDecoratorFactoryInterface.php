@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory;
 
@@ -43,5 +44,5 @@ interface RepositoryDecoratorFactoryInterface
    *
    * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecoratorInterface A new repository decorator
    */
-    public function getRepositoryDecorator($class);
+    public function getRepositoryDecorator(string $class): \Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\RepositoryDecoratorInterface;
 }

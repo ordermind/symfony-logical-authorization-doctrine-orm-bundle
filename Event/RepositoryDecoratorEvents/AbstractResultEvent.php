@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents;
 
 use Symfony\Component\EventDispatcher\Event;
-use Doctrine\Common\Persistence\ObjectRepository as RepositoryInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * {@inheritdoc}
@@ -12,7 +13,7 @@ abstract class AbstractResultEvent extends Event implements AbstractResultEventI
 {
 
   /**
-   * @var Doctrine\Common\Persistence\ObjectRepository
+   * @var Doctrine\ORM\EntityRepository
    */
     protected $repository;
 
@@ -34,12 +35,12 @@ abstract class AbstractResultEvent extends Event implements AbstractResultEventI
   /**
    * @internal
    *
-   * @param Doctrine\Common\Persistence\ObjectRepository $repository The repository that returned the result
+   * @param Doctrine\ORM\EntityRepository $repository The repository that returned the result
    * @param string                                       $method     The method that was used for the call
    * @param array                                        $arguments  The arguments for the call
    * @param mixed                                        $result     The returned result
    */
-    public function __construct(RepositoryInterface $repository, $method, array $arguments, $result)
+    public function __construct(EntityRepository $repository, string $method, array $arguments, $result)
     {
         $this->repository = $repository;
         $this->method = $method;
@@ -50,7 +51,7 @@ abstract class AbstractResultEvent extends Event implements AbstractResultEventI
   /**
    * {@inheritdoc}
    */
-    public function getRepository()
+    public function getRepository(): EntityRepository
     {
         return $this->repository;
     }
@@ -58,7 +59,7 @@ abstract class AbstractResultEvent extends Event implements AbstractResultEventI
   /**
    * {@inheritdoc}
    */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -66,7 +67,7 @@ abstract class AbstractResultEvent extends Event implements AbstractResultEventI
   /**
    * {@inheritdoc}
    */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }

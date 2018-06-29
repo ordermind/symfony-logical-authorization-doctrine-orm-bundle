@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents;
 
@@ -13,14 +14,14 @@ interface BeforeCreateEventInterface
    *
    * @return string
    */
-    public function getEntityClass();
+    public function getEntityClass(): string;
 
   /**
    * Gets the abort flag value for this creation
    *
    * @return bool
    */
-    public function getAbort();
+    public function getAbort(): bool;
 
   /**
    * Sets the abort flag value for this creation
@@ -29,5 +30,5 @@ interface BeforeCreateEventInterface
    *
    * @param bool $abort The new value for the abort flag
    */
-    public function setAbort($abort);
+    public function setAbort(bool $abort);
 }

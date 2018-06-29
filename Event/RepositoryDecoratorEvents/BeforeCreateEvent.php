@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents;
 
@@ -25,7 +26,7 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
    *
    * @param string $entityClass The class of the entity that is about to be created
    */
-    public function __construct($entityClass)
+    public function __construct(string $entityClass)
     {
         $this->entityClass = $entityClass;
     }
@@ -33,7 +34,7 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
   /**
    * {@inheritdoc}
    */
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return $this->entityClass;
     }
@@ -41,7 +42,7 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
   /**
    * {@inheritdoc}
    */
-    public function getAbort()
+    public function getAbort(): bool
     {
         return $this->abort;
     }
@@ -49,8 +50,8 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
   /**
    * {@inheritdoc}
    */
-    public function setAbort($abort)
+    public function setAbort(bool $abort)
     {
-        $this->abort = (bool) $abort;
+        $this->abort = $abort;
     }
 }
