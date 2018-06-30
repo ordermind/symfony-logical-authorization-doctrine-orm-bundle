@@ -30,7 +30,7 @@ class BeforeSaveEvent extends Event implements BeforeSaveEventInterface
    * @internal
    *
    * @param object $entity The entity that is about to be saved
-   * @param bool  $isNew A flag for the persistence status of the entity
+   * @param bool   $isNew  A flag for the persistence status of the entity
    */
     public function __construct($entity, bool $isNew)
     {

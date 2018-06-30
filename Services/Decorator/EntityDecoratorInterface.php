@@ -41,13 +41,13 @@ interface EntityDecoratorInterface extends ModelDecoratorInterface
    *
    * This method is primarily meant to facilitate client-side authorization by providing a map of all available actions on a entity. The map has the structure ['entity_action1' => 'entity_action1', 'entity_action3' => 'entity_action3', 'fields' => ['field_name1' => ['field_action1' => 'field_action1']]].
    *
-   * @param object|string $user (optional) Either a user object or a string to signify an anonymous user. If no user is supplied, the current user will be used.
-   * @param array $entity_actions (optional) A list of entity actions that should be evaluated. Default actions are the standard CRUD actions.
-   * @param array $field_actions (optional) A list of field actions that should be evaluated. Default actions are 'get' and 'set'.
+   * @param object|string $user          (optional) Either a user object or a string to signify an anonymous user. If no user is supplied, the current user will be used.
+   * @param array         $entityActions (optional) A list of entity actions that should be evaluated. Default actions are the standard CRUD actions.
+   * @param array         $fieldActions  (optional) A list of field actions that should be evaluated. Default actions are 'get' and 'set'.
    *
    * @return array A map of available actions
    */
-    public function getAvailableActions($user = null, array $entity_actions = ['create', 'read', 'update', 'delete'], array $field_actions = ['get', 'set']);
+    public function getAvailableActions($user = null, array $entityActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set']);
 
   /**
    * Returns TRUE if the entity is new. Returns FALSE if the entity is persisted.

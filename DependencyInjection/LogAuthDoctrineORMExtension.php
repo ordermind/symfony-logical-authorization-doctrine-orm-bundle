@@ -21,8 +21,8 @@ class LogAuthDoctrineORMExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $processed_config = $this->processConfiguration($configuration, $configs);
-        $container->setParameter('logauth_doctrine_orm.config', $processed_config);
+        $processedConfig = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('logauth_doctrine_orm.config', $processedConfig);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -36,4 +36,3 @@ class LogAuthDoctrineORMExtension extends Extension
         return 'logauth_doctrine_orm';
     }
 }
-

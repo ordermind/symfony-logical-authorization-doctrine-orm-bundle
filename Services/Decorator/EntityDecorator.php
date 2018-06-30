@@ -39,10 +39,10 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * @internal
    *
-   * @param Doctrine\ORM\EntityManager                 $em         The entity manager to use in this decorator
-   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher The event dispatcher to use in this decorator
-   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationEntity service
-   * @param object                                                      $entity      The entity to wrap in this decorator
+   * @param Doctrine\ORM\EntityManager                                                       $em         The entity manager to use in this decorator
+   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                       $dispatcher The event dispatcher to use in this decorator
+   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel    LogicalAuthorizationEntity service
+   * @param object                                                                           $entity     The entity to wrap in this decorator
    */
     public function __construct(EntityManager $em, EventDispatcherInterface $dispatcher, LogicalAuthorizationModelInterface $laModel, $entity)
     {
@@ -89,8 +89,9 @@ class EntityDecorator implements EntityDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getAvailableActions($user = null, array $entity_actions = ['create', 'read', 'update', 'delete'], array $field_actions = ['get', 'set']) {
-      return $this->laModel->getAvailableActions($this->getEntity(), $entity_actions, $field_actions, $user);
+    public function getAvailableActions($user = null, array $entityActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set'])
+    {
+        return $this->laModel->getAvailableActions($this->getEntity(), $entityActions, $fieldActions, $user);
     }
 
   /**
@@ -176,6 +177,11 @@ class EntityDecorator implements EntityDecoratorInterface
         return $result;
     }
 
+    /**
+     * @internal
+     *
+     * @return Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
     protected function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;

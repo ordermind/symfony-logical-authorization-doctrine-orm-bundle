@@ -53,11 +53,11 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * @internal
    *
-   * @param Doctrine\ORM\EntityManager                                  $em                  The entity manager to use in this decorator
+   * @param Doctrine\ORM\EntityManager                                                                       $em                     The entity manager to use in this decorator
    * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Factory\EntityDecoratorFactoryInterface $entityDecoratorFactory The factory to use for creating new entity decorators
-   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                    $dispatcher          The event dispatcher to use in this decorator
-   * @param Ordermind\LogicalAuthorizationBundle\Services\HelperInterface $helper LogicalAuthorizaton helper service
-   * @param string                                                                        $class               The entity class to use in this decorator
+   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                                       $dispatcher             The event dispatcher to use in this decorator
+   * @param Ordermind\LogicalAuthorizationBundle\Services\HelperInterface                                    $helper                 LogicalAuthorizaton helper service
+   * @param string                                                                                           $class                  The entity class to use in this decorator
    */
     public function __construct(EntityManager $em, EntityDecoratorFactoryInterface $entityDecoratorFactory, EventDispatcherInterface $dispatcher, HelperInterface $helper, $class)
     {
@@ -214,7 +214,9 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
     public function wrapEntities($entities): ?array
     {
         if (!is_array($entities)) {
-            if(is_null($entities)) return $entities;
+            if (is_null($entities)) {
+                return $entities;
+            }
 
             return [$this->wrapEntity($entities)];
         }
@@ -257,26 +259,44 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $dispatcher->dispatch('logauth_doctrine_orm.event.repository_decorator.unknown_result', $event);
         $result = $event->getResult();
 
-        if(!is_array($result)) {
-          return $this->wrapEntity($result);
+        if (!is_array($result)) {
+            return $this->wrapEntity($result);
         }
 
         return $this->wrapEntities($result);
     }
 
+    /**
+     * @internal
+     *
+     * @return Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
     protected function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
     }
 
+    /**
+     * @internal
+     *
+     * @param Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface $entityDecorator
+     *
+     * @return Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDecoratorInterface
+     */
     protected function setAuthor(EntityDecoratorInterface $entityDecorator)
     {
         $entity = $entityDecorator->getEntity();
-        if(!($entity instanceof ModelInterface)) return $entityDecorator;
+        if (!($entity instanceof ModelInterface)) {
+            return $entityDecorator;
+        }
 
         $author = $this->helper->getCurrentUser();
-        if(!($author instanceof UserInterface)) return $entityDecorator;
+        if (!($author instanceof UserInterface)) {
+            return $entityDecorator;
+        }
 
         $entity->setAuthor($author);
+
+        return $entityDecorator;
     }
 }

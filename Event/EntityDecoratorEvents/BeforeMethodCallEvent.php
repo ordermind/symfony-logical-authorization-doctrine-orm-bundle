@@ -45,7 +45,7 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
   /**
    * @internal
    *
-   * @param object                                             $entity     The entity on which the call is made
+   * @param object                                            $entity    The entity on which the call is made
    * @param bool                                              $isNew     A flag for the persistence status of the entity
    * @param Doctrine\Common\Persistence\Mapping\ClassMetadata $metadata  The metadata for the entity
    * @param string                                            $method    The method for the call

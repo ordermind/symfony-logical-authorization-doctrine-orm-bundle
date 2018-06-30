@@ -12,7 +12,7 @@ interface EntityDecoratorFactoryInterface
   /**
    * Gets a new entity decorator
    *
-   * @param Doctrine\ORM\EntityManager                  $em         The entity manager to use for the new entity decorator
+   * @param Doctrine\ORM\EntityManager                                 $em         The entity manager to use for the new entity decorator
    * @param Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher The event dispatcher to use for the new entity decorator
    * @param object                                                     $entity     The entity to wrap in the manager
    *

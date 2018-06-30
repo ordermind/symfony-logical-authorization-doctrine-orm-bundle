@@ -36,9 +36,9 @@ abstract class AbstractResultEvent extends Event implements AbstractResultEventI
    * @internal
    *
    * @param Doctrine\ORM\EntityRepository $repository The repository that returned the result
-   * @param string                                       $method     The method that was used for the call
-   * @param array                                        $arguments  The arguments for the call
-   * @param mixed                                        $result     The returned result
+   * @param string                        $method     The method that was used for the call
+   * @param array                         $arguments  The arguments for the call
+   * @param mixed                         $result     The returned result
    */
     public function __construct(EntityRepository $repository, string $method, array $arguments, $result)
     {
