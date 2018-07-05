@@ -8,9 +8,6 @@ php:
 
 install: composer install --prefer-dist
 
-#before_script:
-  #- mysql -e 'create database orm_test;'
-
 script: phpunit -c ./phpunit.xml.dist
 
 notifications:
