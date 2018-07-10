@@ -18,31 +18,31 @@ interface AbstractResultEventInterface
    */
     public function getRepository(): \Doctrine\ORM\EntityRepository;
 
-  /**
-   * Gets the method that was used for the call
-   *
-   * @return string
-   */
+    /**
+     * Gets the method that was used for the call
+     *
+     * @return string
+     */
     public function getMethod(): string;
 
-  /**
-   * Gets the arguments for the call
-   *
-   * @return array
-   */
+    /**
+     * Gets the arguments for the call
+     *
+     * @return array
+     */
     public function getArguments(): array;
 
-  /**
-   * Gets the returned result
-   *
-   * @return mixed
-   */
+    /**
+     * Gets the returned result
+     *
+     * @return mixed
+     */
     public function getResult();
 
-  /**
-   * Sets a modified result
-   *
-   * @param mixed $result The modified result
-   */
+    /**
+     * Sets a modified result
+     *
+     * @param mixed $result The modified result
+     */
     public function setResult($result);
 }

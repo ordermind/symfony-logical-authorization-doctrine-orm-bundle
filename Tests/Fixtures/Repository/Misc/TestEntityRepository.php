@@ -10,10 +10,12 @@ namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Reposit
  */
 class TestEntityRepository extends \Doctrine\ORM\EntityRepository
 {
-  public function findByField1($value) {
-    return $this->findBy(array('field1' => $value));
-  }
-  public function findOneByField1($value) {
-    return $this->findOneBy(array('field1' => $value));
-  }
+    public function findByField1($value)
+    {
+        return $this->findBy(array('field1' => $value));
+    }
+    public function findOneByField1($value)
+    {
+        return $this->findOneBy(array('field1' => $value));
+    }
 }

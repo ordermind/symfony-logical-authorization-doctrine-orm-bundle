@@ -10,7 +10,8 @@ namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Reposit
  */
 class TestEntityHasAccountNoInterfaceRepository extends \Doctrine\ORM\EntityRepository
 {
-  public function customMethod() {
-    return $this->findAll();
-  }
+    public function customMethod()
+    {
+        return $this->findAll();
+    }
 }

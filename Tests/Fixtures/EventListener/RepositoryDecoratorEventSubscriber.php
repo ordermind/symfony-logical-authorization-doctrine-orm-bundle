@@ -11,9 +11,11 @@ use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEve
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Event\RepositoryDecoratorEvents\BeforeCreateEvent;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\TestEntityAbortCreate;
 
-class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface {
-  public static function getSubscribedEvents() {
-    return array(
+class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents()
+    {
+        return array(
       'logauth_doctrine_orm.event.repository_decorator.unknown_result' => array(
         array('onUnknownResult'),
       ),
@@ -30,55 +32,67 @@ class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface {
         array('onBeforeCreate'),
       ),
     );
-  }
-
-  public function onUnknownResult(UnknownResultEvent $event) {
-    $this->onResult($event);
-  }
-
-  public function onSingleEntityResult(SingleEntityResultEvent $event) {
-    $this->onResult($event);
-  }
-
-  public function onMultipleEntityResult(MultipleEntityResultEvent $event) {
-    $this->onResult($event);
-  }
-
-  public function onLazyEntityCollectionResult(LazyEntityCollectionResultEvent $event) {
-    $repository = $event->getRepository();
-    $result = $event->getResult();
-    $class = $repository->getClassName();
-    foreach($result as $i => $item) {
-      $result[$i] = $this->processEntity($item, $class);
     }
-  }
 
-  public function onBeforeCreate(BeforeCreateEvent $event) {
-    $class = $event->getEntityClass();
-    if($class === 'Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntityAbortCreate') {
-      $event->setAbort(true);
+    public function onUnknownResult(UnknownResultEvent $event)
+    {
+        $this->onResult($event);
     }
-  }
 
-  protected function onResult(AbstractResultEvent $event) {
-    $repository = $event->getRepository();
-    $result = $event->getResult();
-    $class = $repository->getClassName();
-    $result = $this->processEntities($result, $class);
-    $event->setResult($result);
-  }
-
-  protected function processEntities($entities, $class) {
-    if(!is_array($entities)) return $this->processEntity($entities, $class);
-    foreach($entities as $i => $entity) {
-      $entities[$i] = $this->processEntity($entity, $class);
+    public function onSingleEntityResult(SingleEntityResultEvent $event)
+    {
+        $this->onResult($event);
     }
-    return $entities;
-  }
 
-  protected function processEntity($entity, $class) {
-    if(!is_object($entity) || get_class($entity) !== $class) return $entity;
-    $entity->setField2('hej');
-    return $entity;
-  }
+    public function onMultipleEntityResult(MultipleEntityResultEvent $event)
+    {
+        $this->onResult($event);
+    }
+
+    public function onLazyEntityCollectionResult(LazyEntityCollectionResultEvent $event)
+    {
+        $repository = $event->getRepository();
+        $result = $event->getResult();
+        $class = $repository->getClassName();
+        foreach ($result as $i => $item) {
+            $result[$i] = $this->processEntity($item, $class);
+        }
+    }
+
+    public function onBeforeCreate(BeforeCreateEvent $event)
+    {
+        $class = $event->getEntityClass();
+        if ($class === 'Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntityAbortCreate') {
+            $event->setAbort(true);
+        }
+    }
+
+    protected function onResult(AbstractResultEvent $event)
+    {
+        $repository = $event->getRepository();
+        $result = $event->getResult();
+        $class = $repository->getClassName();
+        $result = $this->processEntities($result, $class);
+        $event->setResult($result);
+    }
+
+    protected function processEntities($entities, $class)
+    {
+        if (!is_array($entities)) {
+            return $this->processEntity($entities, $class);
+        }
+        foreach ($entities as $i => $entity) {
+            $entities[$i] = $this->processEntity($entity, $class);
+        }
+        return $entities;
+    }
+
+    protected function processEntity($entity, $class)
+    {
+        if (!is_object($entity) || get_class($entity) !== $class) {
+            return $entity;
+        }
+        $entity->setField2('hej');
+        return $entity;
+    }
 }

@@ -124,4 +124,3 @@ class TestEntity
         return $this->field3;
     }
 }
-

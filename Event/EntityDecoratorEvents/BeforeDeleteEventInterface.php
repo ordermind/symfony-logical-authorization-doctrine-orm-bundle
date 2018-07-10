@@ -16,26 +16,26 @@ interface BeforeDeleteEventInterface
    */
     public function getEntity();
 
-  /**
-   * Returns TRUE if the entity is new or FALSE if the entity is already persisted
-   *
-   * @return bool
-   */
+    /**
+     * Returns TRUE if the entity is new or FALSE if the entity is already persisted
+     *
+     * @return bool
+     */
     public function isNew(): bool;
 
-  /**
-   * Gets the abort flag value for this delete call
-   *
-   * @return bool
-   */
+    /**
+     * Gets the abort flag value for this delete call
+     *
+     * @return bool
+     */
     public function getAbort(): bool;
 
-  /**
-   * Sets the abort flag value for this delete call
-   *
-   * If the abort flag is set to true the entity won't be deleted.
-   *
-   * @param bool $abort The new value for the abort flag
-   */
+    /**
+     * Sets the abort flag value for this delete call
+     *
+     * If the abort flag is set to true the entity won't be deleted.
+     *
+     * @param bool $abort The new value for the abort flag
+     */
     public function setAbort(bool $abort);
 }

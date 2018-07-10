@@ -20,19 +20,19 @@ class EntityDecoratorFactory implements EntityDecoratorFactoryInterface
    */
     protected $laModel;
 
-  /**
-   * @internal
-   *
-   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationEntity service
-   */
+    /**
+     * @internal
+     *
+     * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationEntity service
+     */
     public function __construct(LogicalAuthorizationModelInterface $laModel)
     {
         $this->laModel = $laModel;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getEntityDecorator(EntityManager $em, EventDispatcherInterface $dispatcher, $entity): EntityDecoratorInterface
     {
         return new EntityDecorator($em, $dispatcher, $this->laModel, $entity);

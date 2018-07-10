@@ -10,215 +10,238 @@ use Ordermind\LogicalAuthorizationDoctrineORMBundle\Services\Decorator\EntityDec
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Repository\Misc\TestEntityRepository;
 use Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntity;
 
-class RepositoryDecoratorTest extends DecoratorBase {
-
-  public function testClass() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $this->assertTrue($repositoryDecorator instanceof RepositoryDecorator);
-  }
-
-  public function testGetClassName() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $class = $repositoryDecorator->getClassName();
-    $this->assertEquals('Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntity', $class);
-  }
-
-  public function testGetObjectManager() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $em = $repositoryDecorator->getEntityManager();
-    $this->assertTrue($em instanceof EntityManager);
-  }
-
-  public function testSetObjectManager() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $repositoryDecorator->setEntityManager(static::$container->get('doctrine.orm.entity_manager'));
-    $em = $repositoryDecorator->getEntityManager();
-    $this->assertTrue($em instanceof EntityManager);
-  }
-
-  public function testGetRepository() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $repository = $repositoryDecorator->getRepository();
-    $this->assertTrue($repository instanceof TestEntityRepository);
-  }
-
-  public function testFind() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $entityDecorator = $repositoryDecorator->find($entityDecorator->getId());
-    $this->assertEquals('test', $entityDecorator->getField1());
-  }
-
-  public function testFindEvent() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $entityDecorator = $repositoryDecorator->find($entityDecorator->getId());
-    $this->assertEquals('hej', $entityDecorator->getField2());
-  }
-
-  public function testFindAll() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->save();
-    $result = $repositoryDecorator->findAll();
-    $this->assertEquals(1, count($result));
-  }
-
-  public function testFindAllEvent() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->save();
-    $result = $repositoryDecorator->findAll();
-    $entityDecorator = reset($result);
-    $this->assertEquals('hej', $entityDecorator->getField2());
-  }
-
-  public function testFindBy() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $result = $repositoryDecorator->findBy(array('field1' => 'test'));
-    $this->assertEquals(1, count($result));
-  }
-
-  public function testFindByEvent() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $result = $repositoryDecorator->findBy(array('field1' => 'test'));
-    $entityDecorator = reset($result);
-    $this->assertEquals('hej', $entityDecorator->getField2());
-  }
-
-  public function testFindOneBy() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $entityDecorator = $repositoryDecorator->findOneBy(array('field1' => 'test'));
-    $this->assertEquals('test', $entityDecorator->getField1());
-  }
-
-  public function testFindOneByEvent() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $entityDecorator = $repositoryDecorator->findOneBy(array('field1' => 'test'));
-    $this->assertEquals('hej', $entityDecorator->getField2());
-  }
-
-  public function testMatching() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $expr = Criteria::expr();
-    $criteria = Criteria::create();
-    $criteria->where($expr->eq('field1', 'test'));
-    $result = $repositoryDecorator->matching($criteria);
-    $this->assertEquals(1, $result->count());
-  }
-
-  public function testMatchingEvent() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $expr = Criteria::expr();
-    $criteria = Criteria::create();
-    $criteria->where($expr->eq('field1', 'test'));
-    $result = $repositoryDecorator->matching($criteria);
-    foreach($result as $entity) {
-      $this->assertEquals('hej', $entity->getField2());
+class RepositoryDecoratorTest extends DecoratorBase
+{
+    public function testClass()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $this->assertTrue($repositoryDecorator instanceof RepositoryDecorator);
     }
-  }
 
-  public function testCall() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $result = $repositoryDecorator->findByField1('test');
-    $this->assertEquals(1, count($result));
-  }
-
-  public function testCallEvent() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $entityDecorator = $repositoryDecorator->findOneByField1('test');
-    $this->assertEquals('hej', $entityDecorator->getField2());
-  }
-
-  public function testCreate() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entityDecorator = $repositoryDecorator->create();
-    $entityDecorator->setField1('test');
-    $entityDecorator->save();
-    $result = $repositoryDecorator->findBy(array('field1' => 'test'));
-    $this->assertEquals(1, count($result));
-  }
-
-  public function testCreateWithParams() {
-    $repositoryDecorator = static::$container->get('repository.test_entity_constructor_params');
-    $entityDecorator = $repositoryDecorator->create('test1', 'test2', 'test3');
-    $entityDecorator->save();
-    $result = $repositoryDecorator->findBy(array('field1' => 'test1', 'field2' => 'test2', 'field3' => 'test3'));
-    $this->assertEquals(1, count($result));
-    $this->assertSame('test1', $entityDecorator->getField1());
-    $this->assertSame('hej', $entityDecorator->getField2());
-    $this->assertSame('test3', $entityDecorator->getField3());
-  }
-
-  public function testCreateAbort() {
-    $repositoryDecorator = static::$container->get('repository.test_entity_abort_create');
-    $entityDecorator = $repositoryDecorator->create();
-    $this->assertNull($entityDecorator);
-  }
-
-  public function testWrapEntitiesSingleEntity() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entity = new TestEntity();
-    $entityDecorators = $repositoryDecorator->wrapEntities($entity);
-    $this->assertEquals(1, count($entityDecorators));
-    foreach($entityDecorators as $entityDecorator) {
-      $this->assertTrue($entityDecorator instanceof EntityDecorator);
+    public function testGetClassName()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $class = $repositoryDecorator->getClassName();
+        $this->assertEquals('Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Entity\Misc\TestEntity', $class);
     }
-  }
 
-  public function testWrapEntities() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entities = array(
+    public function testGetObjectManager()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $em = $repositoryDecorator->getEntityManager();
+        $this->assertTrue($em instanceof EntityManager);
+    }
+
+    public function testSetObjectManager()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $repositoryDecorator->setEntityManager(static::$container->get('doctrine.orm.entity_manager'));
+        $em = $repositoryDecorator->getEntityManager();
+        $this->assertTrue($em instanceof EntityManager);
+    }
+
+    public function testGetRepository()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $repository = $repositoryDecorator->getRepository();
+        $this->assertTrue($repository instanceof TestEntityRepository);
+    }
+
+    public function testFind()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $entityDecorator = $repositoryDecorator->find($entityDecorator->getId());
+        $this->assertEquals('test', $entityDecorator->getField1());
+    }
+
+    public function testFindEvent()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $entityDecorator = $repositoryDecorator->find($entityDecorator->getId());
+        $this->assertEquals('hej', $entityDecorator->getField2());
+    }
+
+    public function testFindAll()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->save();
+        $result = $repositoryDecorator->findAll();
+        $this->assertEquals(1, count($result));
+    }
+
+    public function testFindAllEvent()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->save();
+        $result = $repositoryDecorator->findAll();
+        $entityDecorator = reset($result);
+        $this->assertEquals('hej', $entityDecorator->getField2());
+    }
+
+    public function testFindBy()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $result = $repositoryDecorator->findBy(array('field1' => 'test'));
+        $this->assertEquals(1, count($result));
+    }
+
+    public function testFindByEvent()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $result = $repositoryDecorator->findBy(array('field1' => 'test'));
+        $entityDecorator = reset($result);
+        $this->assertEquals('hej', $entityDecorator->getField2());
+    }
+
+    public function testFindOneBy()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $entityDecorator = $repositoryDecorator->findOneBy(array('field1' => 'test'));
+        $this->assertEquals('test', $entityDecorator->getField1());
+    }
+
+    public function testFindOneByEvent()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $entityDecorator = $repositoryDecorator->findOneBy(array('field1' => 'test'));
+        $this->assertEquals('hej', $entityDecorator->getField2());
+    }
+
+    public function testMatching()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $expr = Criteria::expr();
+        $criteria = Criteria::create();
+        $criteria->where($expr->eq('field1', 'test'));
+        $result = $repositoryDecorator->matching($criteria);
+        $this->assertEquals(1, $result->count());
+    }
+
+    public function testMatchingEvent()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $expr = Criteria::expr();
+        $criteria = Criteria::create();
+        $criteria->where($expr->eq('field1', 'test'));
+        $result = $repositoryDecorator->matching($criteria);
+        foreach ($result as $entity) {
+            $this->assertEquals('hej', $entity->getField2());
+        }
+    }
+
+    public function testCall()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $result = $repositoryDecorator->findByField1('test');
+        $this->assertEquals(1, count($result));
+    }
+
+    public function testCallEvent()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $entityDecorator = $repositoryDecorator->findOneByField1('test');
+        $this->assertEquals('hej', $entityDecorator->getField2());
+    }
+
+    public function testCreate()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entityDecorator->setField1('test');
+        $entityDecorator->save();
+        $result = $repositoryDecorator->findBy(array('field1' => 'test'));
+        $this->assertEquals(1, count($result));
+    }
+
+    public function testCreateWithParams()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity_constructor_params');
+        $entityDecorator = $repositoryDecorator->create('test1', 'test2', 'test3');
+        $entityDecorator->save();
+        $result = $repositoryDecorator->findBy(array('field1' => 'test1', 'field2' => 'test2', 'field3' => 'test3'));
+        $this->assertEquals(1, count($result));
+        $this->assertSame('test1', $entityDecorator->getField1());
+        $this->assertSame('hej', $entityDecorator->getField2());
+        $this->assertSame('test3', $entityDecorator->getField3());
+    }
+
+    public function testCreateAbort()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity_abort_create');
+        $entityDecorator = $repositoryDecorator->create();
+        $this->assertNull($entityDecorator);
+    }
+
+    public function testWrapEntitiesSingleEntity()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entity = new TestEntity();
+        $entityDecorators = $repositoryDecorator->wrapEntities($entity);
+        $this->assertEquals(1, count($entityDecorators));
+        foreach ($entityDecorators as $entityDecorator) {
+            $this->assertTrue($entityDecorator instanceof EntityDecorator);
+        }
+    }
+
+    public function testWrapEntities()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entities = array(
       new TestEntity(),
       new TestEntity(),
     );
-    $entityDecorators = $repositoryDecorator->wrapEntities($entities);
-    $this->assertEquals(2, count($entityDecorators));
-    foreach($entityDecorators as $entityDecorator) {
-      $this->assertTrue($entityDecorator instanceof EntityDecorator);
+        $entityDecorators = $repositoryDecorator->wrapEntities($entities);
+        $this->assertEquals(2, count($entityDecorators));
+        foreach ($entityDecorators as $entityDecorator) {
+            $this->assertTrue($entityDecorator instanceof EntityDecorator);
+        }
     }
-  }
 
-  public function testWrapEntityWrongEntityType() {
-    $repositoryDecorator = static::$container->get('repository.test_entity_constructor_params');
-    $entity = new TestEntity();
-    $this->assertNull($repositoryDecorator->wrapEntity(null));
-    $this->assertSame($entity, $repositoryDecorator->wrapEntity($entity));
-  }
+    public function testWrapEntityWrongEntityType()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity_constructor_params');
+        $entity = new TestEntity();
+        $this->assertNull($repositoryDecorator->wrapEntity(null));
+        $this->assertSame($entity, $repositoryDecorator->wrapEntity($entity));
+    }
 
-  public function testWrapEntity() {
-    $repositoryDecorator = static::$container->get('repository.test_entity');
-    $entity = new TestEntity();
-    $entityDecorator = $repositoryDecorator->wrapEntity($entity);
-    $this->assertTrue($entityDecorator instanceof EntityDecorator);
-  }
-
+    public function testWrapEntity()
+    {
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entity = new TestEntity();
+        $entityDecorator = $repositoryDecorator->wrapEntity($entity);
+        $this->assertTrue($entityDecorator instanceof EntityDecorator);
+    }
 }

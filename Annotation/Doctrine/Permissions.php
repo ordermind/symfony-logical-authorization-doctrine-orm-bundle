@@ -8,9 +8,9 @@ namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Annotation\Doctrine;
  */
 class Permissions
 {
-  /**
-   * @var array|string|bool
-   */
+    /**
+     * @var array|string|bool
+     */
     protected $permissions;
 
     /**
@@ -23,11 +23,11 @@ class Permissions
         $this->permissions = $data['value'];
     }
 
-  /**
-   * Gets the permission tree for this entity
-   *
-   * @return array|string|bool The permission tree for this entity
-   */
+    /**
+     * Gets the permission tree for this entity
+     *
+     * @return array|string|bool The permission tree for this entity
+     */
     public function getPermissions()
     {
         return $this->permissions;

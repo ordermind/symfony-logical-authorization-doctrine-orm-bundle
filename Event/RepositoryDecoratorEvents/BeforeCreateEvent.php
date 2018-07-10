@@ -16,40 +16,40 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
    */
     protected $entityClass;
 
-  /**
-   * @var bool
-   */
+    /**
+     * @var bool
+     */
     protected $abort = false;
 
-  /**
-   * @internal
-   *
-   * @param string $entityClass The class of the entity that is about to be created
-   */
+    /**
+     * @internal
+     *
+     * @param string $entityClass The class of the entity that is about to be created
+     */
     public function __construct(string $entityClass)
     {
         $this->entityClass = $entityClass;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getEntityClass(): string
     {
         return $this->entityClass;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getAbort(): bool
     {
         return $this->abort;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setAbort(bool $abort)
     {
         $this->abort = $abort;

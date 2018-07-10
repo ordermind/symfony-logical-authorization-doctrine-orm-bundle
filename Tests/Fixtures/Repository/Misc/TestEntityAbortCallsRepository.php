@@ -10,5 +10,4 @@ namespace Ordermind\LogicalAuthorizationDoctrineORMBundle\Tests\Fixtures\Reposit
  */
 class TestEntityAbortCallsRepository extends \Doctrine\ORM\EntityRepository
 {
-
 }

@@ -27,5 +27,4 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__.'/config/config.yml');
     }
-
 }

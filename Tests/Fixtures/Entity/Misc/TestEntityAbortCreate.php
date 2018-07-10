@@ -124,5 +124,3 @@ class TestEntityAbortCreate
         return $this->field3;
     }
 }
-
-

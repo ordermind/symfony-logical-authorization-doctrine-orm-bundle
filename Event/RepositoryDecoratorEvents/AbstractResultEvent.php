@@ -17,29 +17,29 @@ abstract class AbstractResultEvent extends Event implements AbstractResultEventI
    */
     protected $repository;
 
-  /**
-   * @var string
-   */
+    /**
+     * @var string
+     */
     protected $method;
 
-  /**
-   * @var array
-   */
+    /**
+     * @var array
+     */
     protected $arguments;
 
-  /**
-   * @var mixed
-   */
+    /**
+     * @var mixed
+     */
     protected $result;
 
-  /**
-   * @internal
-   *
-   * @param Doctrine\ORM\EntityRepository $repository The repository that returned the result
-   * @param string                        $method     The method that was used for the call
-   * @param array                         $arguments  The arguments for the call
-   * @param mixed                         $result     The returned result
-   */
+    /**
+     * @internal
+     *
+     * @param Doctrine\ORM\EntityRepository $repository The repository that returned the result
+     * @param string                        $method     The method that was used for the call
+     * @param array                         $arguments  The arguments for the call
+     * @param mixed                         $result     The returned result
+     */
     public function __construct(EntityRepository $repository, string $method, array $arguments, $result)
     {
         $this->repository = $repository;
@@ -48,41 +48,41 @@ abstract class AbstractResultEvent extends Event implements AbstractResultEventI
         $this->result = $result;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getRepository(): EntityRepository
     {
         return $this->repository;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getMethod(): string
     {
         return $this->method;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getArguments(): array
     {
         return $this->arguments;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getResult()
     {
         return $this->result;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setResult($result)
     {
         $this->result = $result;

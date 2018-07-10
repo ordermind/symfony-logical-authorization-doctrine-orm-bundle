@@ -42,10 +42,11 @@ class TestEntityConstructorParams
      */
     private $field3 = '';
 
-    public function __construct($field1, $field2, $field3) {
-      $this->setField1($field1);
-      $this->setField2($field2);
-      $this->setField3($field3);
+    public function __construct($field1, $field2, $field3)
+    {
+        $this->setField1($field1);
+        $this->setField2($field2);
+        $this->setField3($field3);
     }
 
     /**
@@ -130,4 +131,3 @@ class TestEntityConstructorParams
         return $this->field3;
     }
 }
-
