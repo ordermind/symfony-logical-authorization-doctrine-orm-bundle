@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "ordermind/logical-authorization-bundle": "dev-master",
+        "ordermind/logical-authorization-bundle": "^0.17.0",
         "doctrine/doctrine-bundle": "^1.0",
         "doctrine/orm": "^2.0"
     },
