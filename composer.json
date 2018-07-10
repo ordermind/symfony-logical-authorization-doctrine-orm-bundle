@@ -3,12 +3,12 @@
     "name": "ordermind/logical-authorization-doctrine-orm-bundle",
     "version": "0.3.8",
     "license": "MIT",
-    "description": "Doctrine ORM integration for LogicalAuthorization bundle",
+    "description": "Doctrine ORM integration for Logical Authorization Bundle",
     "keywords": ["doctrine", "orm", "logical-authorization"],
     "authors": [
         {
             "name": "Kristofer Tengström",
-            "email": "info@kristofer-tengstrom.se"
+            "email": "ordermind@gmail.com"
         }
     ],
     "autoload": {
