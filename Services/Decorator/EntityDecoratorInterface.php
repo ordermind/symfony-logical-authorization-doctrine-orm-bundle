@@ -47,7 +47,32 @@ interface EntityDecoratorInterface extends ModelDecoratorInterface
      *
      * @return array A map of available actions
      */
-    public function getAvailableActions($user = null, array $entityActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set']);
+    public function getAvailableActions($user = null, array $entityActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set']): array;
+
+    /**
+     * Checks access for an action on this entity for a given user.
+     *
+     * If something goes wrong an error will be logged and the method will return FALSE. If no permissions are defined for this action it will return TRUE.
+     *
+     * @param string        $action Examples of entity actions are "create", "read", "update" and "delete".
+     * @param object|string $user   (optional) Either a user object or a string to signify an anonymous user. If no user is supplied, the current user will be used.
+     *
+     * @return bool TRUE if access is granted or FALSE if access is denied.
+     */
+    public function checkEntityAccess(string $action, $user = null): bool;
+
+    /**
+     * Checks access for an action on a specific field in this entity for a given user.
+     *
+     * If something goes wrong an error will be logged and the method will return FALSE. If no permissions are defined for this action on the provided field it will return TRUE.
+     *
+     * @param string        $fieldName The name of the field.
+     * @param string        $action    Examples of field actions are "get" and "set".
+     * @param object|string $user      (optional) Either a user object or a string to signify an anonymous user. If no user is supplied, the current user will be used.
+     *
+     * @return bool TRUE if access is granted or FALSE if access is denied.
+     */
+    public function checkFieldAccess(string $fieldName, string $action, $user = null): bool;
 
     /**
      * Returns TRUE if the entity is new. Returns FALSE if the entity is persisted.

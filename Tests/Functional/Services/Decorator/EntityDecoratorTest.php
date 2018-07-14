@@ -162,4 +162,28 @@ class EntityDecoratorTest extends DecoratorBase
         $available_actions_class = $laModel->getAvailableActions(get_class($entity), ['create', 'read', 'update', 'delete'], ['get', 'set'], 'anon.');
         $this->assertSame($available_actions_decorator, $available_actions_class);
     }
+
+    public function testCheckEntityAccess()
+    {
+        $laModel = static::$container->get('test.logauth.service.logauth_model');
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entity = $entityDecorator->getEntity();
+        $actions = ['create', 'read', 'update', 'delete'];
+        foreach($actions as $action) {
+          $this->assertSame($entityDecorator->checkEntityAccess($action, 'anon.'), $laModel->checkModelAccess($entity, $action, 'anon.'));
+        }
+    }
+
+    public function testCheckFieldAccess()
+    {
+        $laModel = static::$container->get('test.logauth.service.logauth_model');
+        $repositoryDecorator = static::$container->get('repository.test_entity');
+        $entityDecorator = $repositoryDecorator->create();
+        $entity = $entityDecorator->getEntity();
+        $actions = ['get', 'set'];
+        foreach($actions as $action) {
+          $this->assertSame($entityDecorator->checkFieldAccess('field1', $action, 'anon.'), $laModel->checkFieldAccess($entity, 'field1', $action, 'anon.'));
+        }
+    }
 }

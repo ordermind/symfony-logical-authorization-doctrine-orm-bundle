@@ -89,9 +89,25 @@ class EntityDecorator implements EntityDecoratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getAvailableActions($user = null, array $entityActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set'])
+    public function getAvailableActions($user = null, array $entityActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set']): array
     {
         return $this->laModel->getAvailableActions($this->getEntity(), $entityActions, $fieldActions, $user);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkEntityAccess(string $action, $user = null): bool
+    {
+        return $this->laModel->checkModelAccess($this->getEntity(), $action, $user = null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkFieldAccess(string $fieldName, string $action, $user = null): bool
+    {
+        return $this->laModel->checkFieldAccess($this->getEntity(), $fieldName, $action, $user = null);
     }
 
     /**
