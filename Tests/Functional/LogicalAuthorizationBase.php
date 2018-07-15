@@ -26,6 +26,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase
     protected $testUserRepositoryDecorator;
     protected $testEntityOperations;
     protected $client;
+    protected $twig;
 
     /**
      * This method is run before each public test method
@@ -40,6 +41,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase
         $this->load_services['testEntityRepositoryDecorator'] = 'repository.test_entity';
         $this->load_services['testUserRepositoryDecorator'] = 'repository.test_user';
         $this->load_services['testEntityOperations'] = 'test_entity_operations';
+        $this->load_services['twig'] = 'twig';
         $container = $kernel->getContainer();
         foreach ($this->load_services as $property_name => $service_name) {
             $this->$property_name = $container->get($service_name);
@@ -153,9 +155,9 @@ abstract class LogicalAuthorizationBase extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
+//     /**
+//      * @expectedException Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+//      */
     public function testRouteLoadEntityDisallow()
     {
         $testEntityDecorator = $this->testEntityRepositoryDecorator->create()->save();
@@ -1141,5 +1143,35 @@ abstract class LogicalAuthorizationBase extends WebTestCase
       ],
     ];
         $this->assertSame($expected_actions, $actions);
+    }
+
+    public function testTwigCheckEntityAccess()
+    {
+        $entityDecorator = $this->testEntityRoleAuthorRepositoryDecorator->create();
+        $entity = $entityDecorator->getEntity();
+        $function = $this->twig->getFunction('logauth_doctrine_orm_check_entity_access');
+        $this->assertTrue($function instanceof \Twig_SimpleFunction);
+        $callable = $function->getCallable();
+        $this->assertTrue($callable(get_class($entity), 'create', static::$admin_user));
+        $this->assertTrue($callable(get_class($entity), 'read', static::$admin_user));
+        $this->assertTrue($callable(get_class($entity), 'update', static::$admin_user));
+        $this->assertTrue($callable(get_class($entity), 'delete', static::$admin_user));
+        $this->assertFalse($callable(get_class($entity), 'create', static::$authenticated_user));
+        $this->assertFalse($callable(get_class($entity), 'read', static::$authenticated_user));
+        $this->assertFalse($callable(get_class($entity), 'update', static::$authenticated_user));
+        $this->assertFalse($callable(get_class($entity), 'delete', static::$authenticated_user));
+    }
+
+    public function testTwigCheckFieldAccess()
+    {
+        $entityDecorator = $this->testEntityRoleAuthorRepositoryDecorator->create();
+        $entity = $entityDecorator->getEntity();
+        $function = $this->twig->getFunction('logauth_doctrine_orm_check_field_access');
+        $this->assertTrue($function instanceof \Twig_SimpleFunction);
+        $callable = $function->getCallable();
+        $this->assertTrue($callable(get_class($entity), 'field1', 'set', static::$admin_user));
+        $this->assertTrue($callable(get_class($entity), 'field1', 'get', static::$admin_user));
+        $this->assertFalse($callable(get_class($entity), 'field1', 'set', static::$authenticated_user));
+        $this->assertFalse($callable(get_class($entity), 'field1', 'get', static::$authenticated_user));
     }
 }
